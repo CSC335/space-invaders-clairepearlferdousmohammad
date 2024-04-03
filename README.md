@@ -1,6 +1,4 @@
-335 Final Project - Snake
-
-Possible Powerups:
+335 Final Project - Space Invaders
 
 Contributers:
 1. Claire Lodermeier
