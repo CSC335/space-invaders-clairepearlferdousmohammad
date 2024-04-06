@@ -5,12 +5,14 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import model.Bullet;
 import model.Game;
 import model.PlayerTank;
 
@@ -45,6 +47,8 @@ public class SpaceInvadersGUI extends Application{
 		stage.setTitle("SPACE INVADERS");
 		Scene scene = new Scene(pane, 800, 600);
 		stage.setScene(scene);
+		
+		setHandlers(scene);
 
 		stage.show();
 	}
@@ -91,6 +95,15 @@ public class SpaceInvadersGUI extends Application{
 		line.setStyle("-fx-text-fill: Chartreuse;");
 		line.setFont(font);
 
+	}
+	
+	private void setHandlers(Scene scene) { 
+		scene.setOnKeyPressed(event -> {
+			// shoot a bullet
+			if(event.getCode() == KeyCode.SPACE) {
+				Bullet bullet = new Bullet(tank.getX(), tank.getY(), "bullet1.png");
+			} 
+		});
 	}
 
 

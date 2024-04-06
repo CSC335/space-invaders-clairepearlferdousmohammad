@@ -1,19 +1,21 @@
 // @author: Frances Pearl McNabb
 package model;
 
+import javafx.scene.image.Image;
+
 public class Bullet {
 
 	private int xPosition;
 	private int yPosition;
-	private String imageName;
+	private Image image;
 	
 	public Bullet(int xPos, int yPos, String fileName) {
 		this.xPosition = xPos;
 		this.yPosition = yPos;
-		this.imageName = fileName;
+		this.image = new Image(getClass().getResourceAsStream(fileName));
 	}
 	
-	public int getX() {
+	public int getX() { 
 		return this.xPosition;
 	}
 	
@@ -29,7 +31,7 @@ public class Bullet {
 		this.yPosition += 1;
 	}
 	
-	public String getImage() {
-		return this.imageName;
+	public Image getImage() {
+		return this.image;
 	}
 }
