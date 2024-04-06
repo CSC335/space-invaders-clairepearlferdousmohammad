@@ -3,12 +3,10 @@ package view_controller;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Line;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -18,9 +16,12 @@ import model.PlayerTank;
 
 public class SpaceInvadersGUI extends Application{
 
+	private BorderPane all;
 	private GridPane pane;
 	private Game game;
 	private PlayerTank tank;
+	
+	private MenuPane menu;
 	
 	private Label scoreLabel;
 	private Label score; 
@@ -37,15 +38,19 @@ public class SpaceInvadersGUI extends Application{
 	
 	@Override
 	public void start(Stage stage) {
+		all = new BorderPane();
 		pane = new GridPane();
 		game = new Game();
 		tank = new PlayerTank(450,350);
-
+		
+		menu = new MenuPane(this);
+		all.setCenter(menu);
+		
 		layoutPane();
 		stylePane();
 		
 		stage.setTitle("SPACE INVADERS");
-		Scene scene = new Scene(pane, 800, 600);
+		Scene scene = new Scene(all, 800, 600);
 		stage.setScene(scene);
 		
 		setHandlers(scene);
@@ -104,7 +109,13 @@ public class SpaceInvadersGUI extends Application{
 				Bullet bullet = new Bullet(tank.getX(), tank.getY(), "bullet1.png");
 			} 
 		});
+		
 	}
+	
+	public void startGame(int diff) {
+		all.setCenter(pane);
+	}
+	
 
 
 }
