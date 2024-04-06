@@ -1,17 +1,20 @@
 // @author: Frances Pearl McNabb
 package model;
 
+import javafx.scene.image.Image;
+
 public class PlayerTank {
 	
 	private int damages;
 	private int xPosition;
 	private int yPosition;
-	private String imageFile;
+	private Image image;
 	
 	public PlayerTank(int xPos, int yPos) {
 		this.damages = 0;
 		this.xPosition = xPos;
 		this.yPosition = yPos;
+		this.image = new Image(getClass().getResourceAsStream("tankImg.png"));
 	}
 	
 	public int getX() {
@@ -32,6 +35,10 @@ public class PlayerTank {
 
 	public int getDamages() {
 		return damages;
+	}
+	
+	public Image getImage() {
+		return image;
 	}
 
 	public void addDamages(int damages) {

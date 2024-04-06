@@ -65,8 +65,7 @@ public class SpaceInvadersGUI extends Application{
 		line = new Label("____________________________________________");
 		pane.add(line, 1, 400, 300, 1);
 		
-		Image tankImg = new Image(getClass().getResourceAsStream("tankImg.png"));
-		tankImgView = new ImageView(tankImg);
+		tankImgView = new ImageView(tank.getImage());
 		tankImgView.setFitWidth(75);
 		tankImgView.setPreserveRatio(true);
 		pane.add(tankImgView, 240, 390, 20, 10);
