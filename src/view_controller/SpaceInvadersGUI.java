@@ -31,6 +31,10 @@ public class SpaceInvadersGUI extends Application{
 	
 	private Label line;
 	private ImageView tankImgView;
+	private ImageView life1;
+	private ImageView life2;
+	private ImageView life3;
+
 	
 	public static void main(String[] args) {
 		launch();
@@ -72,12 +76,26 @@ public class SpaceInvadersGUI extends Application{
 		pane.add(livesLabel, 250, 10, 5, 1);
 		
 		line = new Label("____________________________________________");
-		pane.add(line, 1, 400, 300, 1);
+		pane.add(line, 1, 400, 350, 1);
 		
 		tankImgView = new ImageView(tank.getImage());
 		tankImgView.setFitWidth(75);
 		tankImgView.setPreserveRatio(true);
 		pane.add(tankImgView, 240, 390, 20, 10);
+		
+		life1 = new ImageView(tank.getImage());
+		life1.setFitWidth(40);
+		life1.setPreserveRatio(true);
+		life2 = new ImageView(tank.getImage());
+		life2.setFitWidth(40);
+		life2.setPreserveRatio(true);
+		life3 = new ImageView(tank.getImage());
+		life3.setFitWidth(40);
+		life3.setPreserveRatio(true);
+		pane.add(life1, 260, 10, 5, 1);
+		pane.add(life2, 280, 10, 5, 1);
+		pane.add(life3, 300, 10, 5, 1);
+
 		
 		gameOverLabel = new Label("GAME OVER");
 		playAgainLabel = new Label("PLAY AGAIN?");
@@ -106,7 +124,11 @@ public class SpaceInvadersGUI extends Application{
 		scene.setOnKeyPressed(event -> {
 			// shoot a bullet
 			if(event.getCode() == KeyCode.SPACE) {
-				Bullet bullet = new Bullet(tank.getX(), tank.getY(), "bullet1.png");
+				Bullet bullet = new Bullet(tank.getX()-208, tank.getY()-150, "bullet1.png");
+				ImageView iv = new ImageView(bullet.getImage());
+				iv.setFitWidth(70);
+				iv.setFitHeight(120);
+				pane.add(iv, bullet.getX(), bullet.getY(), 100, 300);
 			} 
 		});
 		

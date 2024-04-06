@@ -14,7 +14,7 @@ public class PlayerTank {
 		this.damages = 0;
 		this.xPosition = xPos;
 		this.yPosition = yPos;
-		this.image = new Image(getClass().getResourceAsStream("tankImg.png"));
+		this.image = new Image(getClass().getResourceAsStream("tank.png"));
 	}
 	
 	public int getX() {
