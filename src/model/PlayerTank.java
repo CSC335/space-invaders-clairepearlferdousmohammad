@@ -8,11 +8,10 @@ public class PlayerTank {
 	private int yPosition;
 	private String imageFile;
 	
-	public PlayerTank(int xPos, int yPos, String fileName) {
+	public PlayerTank(int xPos, int yPos) {
 		this.damages = 0;
 		this.xPosition = xPos;
 		this.yPosition = yPos;
-		this.imageFile = fileName;
 	}
 	
 	public int getX() {
@@ -39,7 +38,4 @@ public class PlayerTank {
 		this.damages += damages;
 	}
 	
-	public String getFile() {
-		return this.imageFile;
-	}
 }
