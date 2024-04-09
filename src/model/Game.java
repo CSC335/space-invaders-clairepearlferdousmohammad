@@ -12,6 +12,14 @@ public class Game {
 		gameOver = false;
 	}
 	
+	public void setScore(int score) {
+		this.score = score;
+	}
+
+	public void setGameOver(boolean gameOver) {
+		this.gameOver = gameOver;
+	}
+	
 	public int getScore() {
 		return score;
 	}
@@ -22,5 +30,9 @@ public class Game {
 	
 	public boolean getGameOver() {
 		return gameOver;
+	}
+	
+	public void decrementLives() {
+		numLives--;
 	}
 }
