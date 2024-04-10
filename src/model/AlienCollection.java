@@ -1,7 +1,7 @@
 package model;
 import java.util.ArrayList;
 
-
+//@author: MohammadHossein Rezaei
 public class AlienCollection {
     private ArrayList<Alien> aliens;
 
