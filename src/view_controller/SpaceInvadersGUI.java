@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import model.AlienCollection;
 import model.Bullet;
 import model.Game;
 import model.PlayerTank;
@@ -20,6 +21,7 @@ public class SpaceInvadersGUI extends Application{
 	private GridPane pane;
 	private Game game;
 	private PlayerTank tank;
+	private AlienCollection aliens;
 	
 	private MenuPane menu;
 	
@@ -46,11 +48,13 @@ public class SpaceInvadersGUI extends Application{
 		pane = new GridPane();
 		game = new Game();
 		tank = new PlayerTank(450,350);
+		aliens = new AlienCollection();
 		
 		menu = new MenuPane(this);
 		all.setCenter(menu);
 		
 		layoutPane();
+		addAliens();
 		stylePane();
 		
 		stage.setTitle("SPACE INVADERS");
@@ -103,6 +107,11 @@ public class SpaceInvadersGUI extends Application{
 
 	}
 	
+	private void addAliens() {
+		// pass a grid pane to AlienCollection class
+		
+	}
+	
 	private void stylePane() {
 		pane.setStyle("-fx-background-color: Black;");
 		
@@ -119,7 +128,7 @@ public class SpaceInvadersGUI extends Application{
 		line.setFont(font);
 
 	}
-	
+	 
 	private void setHandlers(Scene scene) { 
 		scene.setOnKeyPressed(event -> {
 			// shoot a bullet
@@ -137,6 +146,7 @@ public class SpaceInvadersGUI extends Application{
 	public void startGame(int diff) {
 		all.setCenter(pane);
 	}
+
 	
 
 
