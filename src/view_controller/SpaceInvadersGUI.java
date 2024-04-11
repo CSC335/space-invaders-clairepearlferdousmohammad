@@ -48,7 +48,7 @@ public class SpaceInvadersGUI extends Application{
 		pane = new GridPane();
 		game = new Game();
 		tank = new PlayerTank(450,350);
-		aliens = new AlienCollection();
+		// aliens = new AlienCollection();
 		
 		menu = new MenuPane(this);
 		all.setCenter(menu);

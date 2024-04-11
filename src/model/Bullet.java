@@ -5,21 +5,21 @@ import javafx.scene.image.Image;
 
 public class Bullet {
 
-	private int xPosition;
-	private int yPosition;
+	private float xPosition;
+	private float yPosition;
 	private Image image;
 
-	public Bullet(int xPos, int yPos, String fileName) {
-		this.xPosition = xPos;
-		this.yPosition = yPos;
+	public Bullet(float x_1Position, float y_1Position, String fileName) {
+		this.xPosition = x_1Position;
+		this.yPosition = y_1Position;
 		this.image = new Image(getClass().getResourceAsStream(fileName));
 	}
 
-	public int getX() {
+	public float getX() {
 		return this.xPosition;
 	}
 
-	public int getY() {
+	public float getY() {
 		return this.yPosition;
 	}
 

@@ -1,31 +1,213 @@
 package model;
+import javafx.scene.canvas.GraphicsContext;
 import java.util.ArrayList;
 
+
 //@author: MohammadHossein Rezaei
+/**
+ * The AlienCollection class represents a collection of aliens in a game.
+ * It provides methods to fill the collection with aliens, move the aliens,
+ * check for collisions, and perform other operations on the collection.
+ */
 public class AlienCollection {
-    private ArrayList<Alien> aliens;
+    // Following will be set by parameters of the constructor
+    private GraphicsContext gameGC;
+    private int gridWidth;
+    private int gridHeight;
+    private int numAlienInRow;
+    private int numTotalRows;
+    private int moveMargin;
 
-    public AlienCollection() {
-        this.aliens = new ArrayList<Alien>();
+    // Following need to be calculated based on the above parameters
+    private float alienWidth;
+    private float alienHeight;
+    private float horizontalMargin;
+    private float verticalMargin;
+
+    private int movingDirection = 1; // 1 for right, -1 for left
+
+    // save all aliens
+    private ArrayList<Alien> aliens = new ArrayList<>();
+
+    /**
+     * Constructs a new AlienCollection object with the specified parameters.
+     *
+     * @param gameGC        the GraphicsContext object for drawing the aliens
+     * @param gridWidth     the width of the game grid
+     * @param moveMargin    the margin for moving the aliens
+     * @param gridHeight    the height of the game grid
+     * @param numAlienInRow the number of aliens in each row
+     * @param numTotalRows  the total number of rows of aliens
+     */
+    public AlienCollection(GraphicsContext gameGC, int gridWidth, int moveMargin, int gridHeight, int numAlienInRow, int numTotalRows) {
+        this.gameGC = gameGC;
+        this.gridWidth = gridWidth;
+        this.gridHeight = gridHeight;
+        this.numAlienInRow = numAlienInRow;
+        this.numTotalRows = numTotalRows;
+        this.moveMargin = moveMargin;
+
+        // horizontalMargin needs to be 30% of the alien width
+        this.alienWidth = (float) ((gridWidth - moveMargin) / (0.3 * numAlienInRow + 0.3 + numAlienInRow));
+        this.horizontalMargin = 0.3f * alienWidth;
+
+        // verticalMargin needs to be 40% of the alien height
+        this.alienHeight = (float) (gridHeight / (0.4 * numTotalRows + 0.4 + numTotalRows));
+        this.verticalMargin = 0.4f * alienHeight;
     }
 
-    public void addAlien(Alien alien) {
-        this.aliens.add(alien);
+    /**
+     * Fills the AlienCollection with aliens in the specified number of rows.
+     *
+     * @param numRow the number of rows of aliens to fill
+     */
+    public void fillWithAliens(int numRow) {
+        /**
+         * This method will fill the gameGrid with aliens in the following way:
+         * Starting from the top row; it will add numRow rows of aliens
+         * with one alien type in each row.
+         */
+
+        Alien nalien;
+        for (int i = 0; i < numRow; i++) {
+            for (int j = 0; j < numAlienInRow; j++) {
+                if (i % 3 == 0) {
+                    nalien = new AlienType1(
+                            j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
+                            i * (alienWidth + verticalMargin) + verticalMargin,
+                            j * (alienHeight + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
+                            i * (alienHeight + verticalMargin) + verticalMargin + alienHeight
+                    );
+                } else if (i % 3 == 1) {
+                    nalien = new AlienType2(
+                            j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
+                            i * (alienWidth + verticalMargin) + verticalMargin,
+                            j * (alienHeight + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
+                            i * (alienHeight + verticalMargin) + verticalMargin + alienHeight
+                    );
+                } else {
+                    nalien = new AlienType3(
+                            j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
+                            i * (alienWidth + verticalMargin) + verticalMargin,
+                            j * (alienHeight + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
+                            i * (alienHeight + verticalMargin) + verticalMargin + alienHeight
+                    );
+                }
+                gameGC.drawImage(nalien.getImage(), nalien.getX1(), nalien.getY1(), alienWidth, alienHeight);
+                this.aliens.add(nalien);
+            }
+        }
+        this.movingDirection = 1;
     }
 
-    public void removeAlien(Alien alien) {
-        this.aliens.remove(alien);
+    /**
+     * Moves all aliens in the collection by the specified distance.
+     *
+     * @param distance the distance to move the aliens
+     */
+    public void moveAliens(float distance) {
+        /**
+         * This method will move all aliens in the collection
+         * based on the movingDirection.
+         * If the aliens reach the right or left border of the gameGrid,
+         * they will move down and change the movingDirection.
+         */
+
+        // check if we need to move down
+        boolean moveDown = false;
+        for (Alien alien : aliens) {
+            if (alien.getX1() + distance * movingDirection < 0 || alien.getX2() + distance * movingDirection > gridWidth) {
+                moveDown = true;
+                break;
+            }
+        }
+
+        // move all aliens
+        if (moveDown) {
+            for (Alien alien : aliens) {
+                alien.moveDown(alienHeight + verticalMargin);
+                if (movingDirection == 1) {
+                    alien.moveRight(gridWidth - alien.getX2());
+                    alien.moveLeft(distance - (gridWidth - alien.getX2()));
+                } else {
+                    alien.moveLeft(alien.getX1());
+                    alien.moveRight(distance - alien.getX1());
+                }
+            }
+            movingDirection *= -1;
+        } else {
+            for (Alien alien : aliens) {
+                alien.moveRight(distance * movingDirection);
+            }
+        }
+
+        // update the drawings
+        gameGC.clearRect(0, 0, gridWidth, gridHeight);
+        for (Alien alien : aliens) {
+            gameGC.drawImage(alien.getImage(), alien.getX1(), alien.getY1(), alienWidth, alienHeight);
+        }
     }
 
-    public ArrayList<Alien> getAliens() {
-        return this.aliens;
+    /**
+     * Checks if the given coordinates are inside any of the aliens in the collection.
+     * If so, removes the alien from the collection and returns true.
+     * Otherwise, returns false.
+     *
+     * @param x1 the starting x-coordinate
+     * @param x2 the ending x-coordinate
+     * @param y  the y-coordinate
+     * @return true if the coordinates are inside an alien, false otherwise
+     */
+    public Boolean doesHit(float x1, float x2, float y) {
+        /**
+         * This method will check if the given x1, x2, and y
+         * are inside any of the aliens in the collection.
+         * If so, it will return true and remove the alien from the collection.
+         * Otherwise, it will return false.
+         */
+        for (Alien alien : aliens) {
+            if (alien.getX1() < x2 && alien.getX2() > x1 && alien.getY1() < y) {
+                aliens.remove(alien);
+                return true;
+            }
+        }
+        return false;
     }
 
+    /**
+     * Checks if the collection is empty.
+     *
+     * @return true if the collection is empty, false otherwise
+     */
     public Boolean isEmpty() {
-        return this.aliens.isEmpty();
+        /**
+         * This method will return true if the collection is empty.
+         * Otherwise, it will return false.
+         */
+        return aliens.isEmpty();
     }
 
-    public Boolean doesContain(Alien alien) {
-        return this.aliens.contains(alien);
+    /**
+     * Clears the collection.
+     */
+    public void clear() {
+        /**
+         * This method will clear the collection.
+         */
+        aliens.clear();
     }
+
+    /**
+     * Returns the number of aliens in the collection.
+     *
+     * @return the number of aliens
+     */
+    public int getNumAliens() {
+        /**
+         * This method will return the number of aliens in the collection.
+         */
+        return aliens.size();
+    }
+
 }
+

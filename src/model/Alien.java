@@ -3,47 +3,126 @@ import javafx.scene.image.Image;
 
 // @author: MohammadHossein Rezaei
 
+/**
+ * The Alien class represents an alien object in a game.
+ * It contains methods to move the alien, shoot bullets, and retrieve its image.
+ */
 public class Alien {
-	private int xPosition;
-	private int yPosition;
+	private float x_1Position;
+	private float x_2Position;
+	private float y_1Position;
+	private float y_2Position;
 	private Image image;
 
-	public Alien(int xPos, int yPos, String fileName) {
-		this.xPosition = xPos;
-		this.yPosition = yPos;
+	/**
+	 * Constructs an Alien object with the specified positions and image file.
+	 *
+	 * @param x1Pos     the x-coordinate of the first position top left
+	 * @param x2Pos     the x-coordinate of the second position top right
+	 * @param y1Pos     the y-coordinate of the first position top left
+	 * @param y2Pos     the y-coordinate of the second position bottom left
+	 * @param fileName  the file name of the image
+	 */
+	public Alien(float x1Pos, float x2Pos, float y1Pos, float y2Pos, String fileName) {
+		this.x_1Position = x1Pos;
+		this.x_2Position = x2Pos;
+		this.y_1Position = y1Pos;
+		this.y_2Position = y2Pos;
 		this.image = new Image(getClass().getResourceAsStream(fileName));
 	}
 
-	public int getX() {
-		return this.xPosition;
+	/**
+	 * Returns the x-coordinate of the first position of the alien.
+	 *
+	 * @return the x-coordinate of the first position
+	 */
+	public float getX1() {
+		return this.x_1Position;
 	}
 
-	public int getY() {
-		return this.yPosition;
+	/**
+	 * Returns the x-coordinate of the second position of the alien.
+	 *
+	 * @return the x-coordinate of the second position
+	 */
+	public float getX2() {
+		return this.x_2Position;
 	}
 
-	public void moveUp() {
-		this.yPosition -= 1;
+	/**
+	 * Returns the y-coordinate of the first position of the alien.
+	 *
+	 * @return the y-coordinate of the first position
+	 */
+	public float getY1() {
+		return this.y_1Position;
 	}
 
-	public void moveDown() {
-		this.yPosition += 1;
+	/**
+	 * Returns the y-coordinate of the second position of the alien.
+	 *
+	 * @return the y-coordinate of the second position
+	 */
+	public float getY2() {
+		return this.y_2Position;
 	}
 
-    public void moveLeft() {
-        this.xPosition -= 1;
-    }
+	/**
+	 * Moves the alien up by the specified distance.
+	 *
+	 * @param distance  the distance to move up
+	 */
+	public void moveUp(float distance) {
+		this.y_1Position -= distance;
+		this.y_2Position -= distance;
+	}
 
-    public void moveRight() {
-        this.xPosition += 1;
-    }
+	/**
+	 * Moves the alien down by the specified distance.
+	 *
+	 * @param distance  the distance to move down
+	 */
+	public void moveDown(float distance) {
+		this.y_1Position += distance;
+		this.y_2Position += distance;
+	}
 
+	/**
+	 * Moves the alien left by the specified distance.
+	 *
+	 * @param distance  the distance to move left
+	 */
+	public void moveLeft(float distance) {
+		this.x_1Position -= distance;
+		this.x_2Position -= distance;
+	}
+
+	/**
+	 * Moves the alien right by the specified distance.
+	 *
+	 * @param distance  the distance to move right
+	 */
+	public void moveRight(float distance) {
+		this.x_1Position += distance;
+		this.x_2Position += distance;
+	}
+
+	/**
+	 * Shoots a bullet from the alien.
+	 * TODO: This needs to be updated when the Bullet class is updated with two x and y positions.
+	 *
+	 * @return the bullet object
+	 */
+	public Bullet shoot() {
+		return new Bullet(this.x_1Position, this.y_1Position, "bullet2.png");
+	}
+
+	/**
+	 * Returns the image of the alien.
+	 *
+	 * @return the image of the alien
+	 */
 	public Image getImage() {
 		return this.image;
 	}
-
-    public Bullet shoot() {
-        return new Bullet(this.xPosition, this.yPosition, "bullet2.png");
-    }
-
 }
