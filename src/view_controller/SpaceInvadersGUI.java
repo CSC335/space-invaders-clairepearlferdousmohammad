@@ -2,6 +2,8 @@ package view_controller;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -18,7 +20,7 @@ import model.PlayerTank;
 public class SpaceInvadersGUI extends Application{
 
 	private BorderPane all;
-	private GridPane pane;
+	private GridPane headPane;
 	private Game game;
 	private PlayerTank tank;
 	private AlienCollection aliens;
@@ -36,6 +38,9 @@ public class SpaceInvadersGUI extends Application{
 	private ImageView life1;
 	private ImageView life2;
 	private ImageView life3;
+	
+	private GraphicsContext gc;
+	private Canvas canvas;
 
 	
 	public static void main(String[] args) {
@@ -45,16 +50,19 @@ public class SpaceInvadersGUI extends Application{
 	@Override
 	public void start(Stage stage) {
 		all = new BorderPane();
-		pane = new GridPane();
+		headPane = new GridPane();
 		game = new Game();
+		canvas = new Canvas(800, 580);
+		gc = canvas.getGraphicsContext2D();
+			
 		tank = new PlayerTank(450,350);
-		// aliens = new AlienCollection();
+		//aliens = new AlienCollection();
 		
 		menu = new MenuPane(this);
 		all.setCenter(menu);
 		
 		layoutPane();
-		addAliens();
+		//addAliens();
 		stylePane();
 		
 		stage.setTitle("SPACE INVADERS");
@@ -67,25 +75,25 @@ public class SpaceInvadersGUI extends Application{
 	}
 	
 	private void layoutPane() {
-		pane.setHgap(1);
-		pane.setVgap(1);
+		headPane.setHgap(1);
+		headPane.setVgap(1);
 		
 		scoreLabel = new Label("SCORE ");
 		score = new Label("" + game.getScore());
 		
-		pane.add(scoreLabel, 10, 10, 5, 1);
-		pane.add(score, 15, 10, 5, 1);
+		headPane.add(scoreLabel, 10, 10, 5, 1);
+		headPane.add(score, 15, 10, 5, 1);
 		
 		livesLabel = new Label("LIVES ");
-		pane.add(livesLabel, 250, 10, 5, 1);
+		headPane.add(livesLabel, 250, 10, 5, 1);
 		
-		line = new Label("____________________________________________");
-		pane.add(line, 1, 400, 350, 1);
+		//line = new Label("____________________________________________");
+		//pane.add(line, 1, 400, 350, 1);
 		
-		tankImgView = new ImageView(tank.getImage());
-		tankImgView.setFitWidth(75);
-		tankImgView.setPreserveRatio(true);
-		pane.add(tankImgView, 240, 390, 20, 10);
+		//tankImgView = new ImageView(tank.getImage());
+		//tankImgView.setFitWidth(75);
+		//tankImgView.setPreserveRatio(true);
+		//pane.add(tankImgView, 240, 390, 20, 10);
 		
 		life1 = new ImageView(tank.getImage());
 		life1.setFitWidth(40);
@@ -96,13 +104,16 @@ public class SpaceInvadersGUI extends Application{
 		life3 = new ImageView(tank.getImage());
 		life3.setFitWidth(40);
 		life3.setPreserveRatio(true);
-		pane.add(life1, 260, 10, 5, 1);
-		pane.add(life2, 280, 10, 5, 1);
-		pane.add(life3, 300, 10, 5, 1);
+		headPane.add(life1, 260, 10, 5, 1);
+		headPane.add(life2, 280, 10, 5, 1);
+		headPane.add(life3, 300, 10, 5, 1);
+		
 
 		
 		gameOverLabel = new Label("GAME OVER");
 		playAgainLabel = new Label("PLAY AGAIN?");
+		
+
 		
 
 	}
@@ -113,7 +124,7 @@ public class SpaceInvadersGUI extends Application{
 	}
 	
 	private void stylePane() {
-		pane.setStyle("-fx-background-color: Black;");
+		headPane.setStyle("-fx-background-color: Black;");
 		
 		Font font = Font.font("Monospaced", FontWeight.BOLD, 30);
 		scoreLabel.setFont(font);
@@ -124,8 +135,8 @@ public class SpaceInvadersGUI extends Application{
 		livesLabel.setStyle("-fx-text-fill: White;");
 		score.setStyle("-fx-text-fill: Chartreuse;");
 		
-		line.setStyle("-fx-text-fill: Chartreuse;");
-		line.setFont(font);
+		//line.setStyle("-fx-text-fill: Chartreuse;");
+		//line.setFont(font);
 
 	}
 	 
@@ -137,14 +148,15 @@ public class SpaceInvadersGUI extends Application{
 				ImageView iv = new ImageView(bullet.getImage());
 				iv.setFitWidth(70);
 				iv.setFitHeight(120);
-				pane.add(iv, bullet.getX(), bullet.getY(), 100, 300);
+				//pane.add(iv, bullet.getX(), bullet.getY(), 100, 300);
 			} 
 		});
 		
 	}
 	
 	public void startGame(int diff) {
-		all.setCenter(pane);
+		all.setTop(headPane);
+		all.setCenter(canvas);
 	}
 
 	
