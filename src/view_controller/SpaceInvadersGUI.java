@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -33,8 +34,6 @@ public class SpaceInvadersGUI extends Application{
 	private Label gameOverLabel; 
 	private Label playAgainLabel;
 	
-	private Label line;
-	private ImageView tankImgView;
 	private ImageView life1;
 	private ImageView life2;
 	private ImageView life3;
@@ -52,17 +51,18 @@ public class SpaceInvadersGUI extends Application{
 		all = new BorderPane();
 		headPane = new GridPane();
 		game = new Game();
-		canvas = new Canvas(800, 580);
+		canvas = new Canvas(800, 600);
 		gc = canvas.getGraphicsContext2D();
 			
 		tank = new PlayerTank(450,350);
-		//aliens = new AlienCollection();
+		aliens = new AlienCollection(gc, 500, 5, 250, 11, 5);
 		
 		menu = new MenuPane(this);
 		all.setCenter(menu);
 		
 		layoutPane();
 		stylePane();
+		setupCanvas();
 		
 		stage.setTitle("SPACE INVADERS");
 		Scene scene = new Scene(all, 800, 600);
@@ -118,6 +118,18 @@ public class SpaceInvadersGUI extends Application{
 		score.setStyle("-fx-text-fill: Chartreuse;");
 
 	}
+	
+	private void setupCanvas() {
+		gc.setStroke(Color.BLACK);
+		gc.setFill(Color.BLACK);
+		gc.strokeRect(0, 0, 800, 580);
+		gc.fillRect(0, 0, 800, 580);
+		
+		gc.setStroke(Color.CHARTREUSE);
+		gc.setLineWidth(3);
+		gc.strokeLine(0, 500, 800, 500);
+
+	}
 	 
 	private void setHandlers(Scene scene) { 
 		scene.setOnKeyPressed(event -> {
@@ -132,9 +144,8 @@ public class SpaceInvadersGUI extends Application{
 	public void startGame(int diff) {
 		all.setTop(headPane);
 		all.setCenter(canvas);
+		aliens.fillWithAliens(5);
+		
 	}
-
-	
-
 
 }
