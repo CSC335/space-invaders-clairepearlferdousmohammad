@@ -145,7 +145,39 @@ public class SpaceInvadersGUI extends Application{
 		all.setTop(headPane);
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
+		while(true) {
+			MoveWaiter mw = new MoveWaiter(1000, 2);
+			mw.run();
+		}
 		
+		
+	}
+	
+	private class MoveWaiter implements Runnable {
+
+		private int duration, distance;
+
+		private MoveWaiter(int ms, int distance) {
+			duration = ms;
+			this.distance = distance;
+		}
+
+		@Override
+		public void run() {
+
+			try {
+
+				Thread.sleep(duration);
+
+			} catch (InterruptedException e) {
+
+				e.printStackTrace();
+
+			}
+
+			aliens.moveAliens(distance);
+
+		}
 	}
 
 }
