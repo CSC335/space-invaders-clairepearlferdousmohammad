@@ -1,5 +1,7 @@
 package view_controller;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -13,6 +15,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import model.AlienCollection;
 import model.Bullet;
 import model.Game;
@@ -55,7 +58,7 @@ public class SpaceInvadersGUI extends Application{
 		gc = canvas.getGraphicsContext2D();
 			
 		tank = new PlayerTank(450,350);
-		aliens = new AlienCollection(gc, 500, 5, 250, 11, 5);
+		aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
 		
 		menu = new MenuPane(this);
 		all.setCenter(menu);
@@ -145,10 +148,15 @@ public class SpaceInvadersGUI extends Application{
 		all.setTop(headPane);
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
-		while(true) {
-			MoveWaiter mw = new MoveWaiter(1000, 2);
-			mw.run();
-		}
+		//while(true) {
+		//	MoveWaiter mw = new MoveWaiter(1000, 2);
+		//	mw.run();
+		//}
+	    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+	        aliens.moveAliens(2);
+	    }));
+	    timeline.setCycleCount(Timeline.INDEFINITE);
+	    timeline.play();
 		
 		
 	}

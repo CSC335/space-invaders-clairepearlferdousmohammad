@@ -1,5 +1,7 @@
 package model;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 
 
@@ -74,24 +76,24 @@ public class AlienCollection {
                 if (i % 3 == 0) {
                     nalien = new AlienType1(
                             j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
-                            i * (alienWidth + verticalMargin) + verticalMargin,
-                            j * (alienHeight + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
+                            i * (alienHeight + verticalMargin) + verticalMargin,
+                            j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
                             i * (alienHeight + verticalMargin) + verticalMargin + alienHeight
                     );
                 } else if (i % 3 == 1) {
                     nalien = new AlienType2(
                             j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
-                            i * (alienWidth + verticalMargin) + verticalMargin,
-                            j * (alienHeight + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
+                            i * (alienHeight + verticalMargin) + verticalMargin,
+                            j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
                             i * (alienHeight + verticalMargin) + verticalMargin + alienHeight
-                    );
+                );
                 } else {
                     nalien = new AlienType3(
                             j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
-                            i * (alienWidth + verticalMargin) + verticalMargin,
-                            j * (alienHeight + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
+                            i * (alienHeight + verticalMargin) + verticalMargin,
+                            j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
                             i * (alienHeight + verticalMargin) + verticalMargin + alienHeight
-                    );
+                );
                 }
                 gameGC.drawImage(nalien.getImage(), nalien.getX1(), nalien.getY1(), alienWidth, alienHeight);
                 this.aliens.add(nalien);
@@ -118,31 +120,68 @@ public class AlienCollection {
         for (Alien alien : aliens) {
             if (alien.getX1() + distance * movingDirection < 0 || alien.getX2() + distance * movingDirection > gridWidth) {
                 moveDown = true;
+                // System.out.println(alien.getX1() + " " + alien.getX2());
+                // System.out.println("Distance: " + distance);
                 break;
             }
         }
 
         // move all aliens
         if (moveDown) {
+            // find the distance of the right most alien to the right border
+            // or the left most alien to the left border
+
+            float rightMost = 0;
+            float leftMost = gridWidth;
+            if (movingDirection == 1) {
+                for (Alien alien : aliens) {
+                    if (alien.getX2() > rightMost) {
+                        rightMost = alien.getX2();
+                    }
+                }
+            } else {
+                for (Alien alien : aliens) {
+                    if (alien.getX1() < leftMost) {
+                        leftMost = alien.getX1();
+                    }
+                }
+            }
+
             for (Alien alien : aliens) {
                 alien.moveDown(alienHeight + verticalMargin);
                 if (movingDirection == 1) {
-                    alien.moveRight(gridWidth - alien.getX2());
-                    alien.moveLeft(distance - (gridWidth - alien.getX2()));
+                    alien.moveRight(gridWidth - rightMost);
+                    alien.moveLeft(distance - (gridWidth - rightMost));
                 } else {
-                    alien.moveLeft(alien.getX1());
-                    alien.moveRight(distance - alien.getX1());
+                    alien.moveLeft(leftMost);
+                    alien.moveRight(distance - leftMost);
                 }
             }
+            // for (Alien alien : aliens) {
+            //     alien.moveDown(alienHeight + verticalMargin);
+            //     if (movingDirection == 1) {
+            //         alien.moveRight(gridWidth - alien.getX2());
+            //         alien.moveLeft(distance - (gridWidth - alien.getX2()));
+            //     } else {
+            //         alien.moveLeft(alien.getX1());
+            //         alien.moveRight(distance - alien.getX1());
+            //     }
+            // }
             movingDirection *= -1;
+            // System.out.println("Moving down: " + movingDirection);
         } else {
             for (Alien alien : aliens) {
                 alien.moveRight(distance * movingDirection);
             }
+            // System.out.println("Moving Direction: " + movingDirection);
         }
 
         // update the drawings
         gameGC.clearRect(0, 0, gridWidth, gridHeight);
+        gameGC.setStroke(Color.BLACK);
+        gameGC.setFill(Color.BLACK);
+        gameGC.strokeRect(0, 0, 800, 580);
+        gameGC.fillRect(0, 0, 800, 580);
         for (Alien alien : aliens) {
             gameGC.drawImage(alien.getImage(), alien.getX1(), alien.getY1(), alienWidth, alienHeight);
         }
