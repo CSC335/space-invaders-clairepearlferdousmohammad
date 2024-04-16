@@ -21,6 +21,15 @@ import model.Bullet;
 import model.Game;
 import model.PlayerTank;
 
+/**
+ * 
+ * Main GUI for Space Invaders. 
+ * Includes methods for setting up the GUI and its handlers. 
+ * 
+ * @author Claire Lodermeier
+ * 
+ */
+
 public class SpaceInvadersGUI extends Application{
 
 	private BorderPane all;
@@ -49,6 +58,10 @@ public class SpaceInvadersGUI extends Application{
 		launch();
 	}
 	
+	/**
+	 * Starts up the GUI for Space Invaders when the application is run	 
+	 * @param stage     the Stage used to run the GUI
+	 */
 	@Override
 	public void start(Stage stage) {
 		all = new BorderPane();
@@ -76,6 +89,10 @@ public class SpaceInvadersGUI extends Application{
 		stage.show();
 	}
 	
+	/**
+	 * Sets up the head pane for the GUI. 
+	 * 
+	 */
 	private void layoutPane() {
 		headPane.setHgap(1);
 		headPane.setVgap(1);
@@ -108,6 +125,9 @@ public class SpaceInvadersGUI extends Application{
 
 	}
 	
+	/**
+	 * Sets styling for the head pane of the GUI. 
+	 */
 	private void stylePane() {
 		headPane.setStyle("-fx-background-color: Black;");
 		
@@ -122,6 +142,10 @@ public class SpaceInvadersGUI extends Application{
 
 	}
 	
+	/**
+	 * Sets up the starting canvas for the main view of the game GUI. 
+	 *
+	 */
 	private void setupCanvas() {
 		gc.setStroke(Color.BLACK);
 		gc.setFill(Color.BLACK);
@@ -134,6 +158,11 @@ public class SpaceInvadersGUI extends Application{
 
 	}
 	 
+	/**
+	 * Sets the handlers for user interaction with the GUI. 
+	 * 
+	 * @param scene     the scene used by the GUI
+	 */
 	private void setHandlers(Scene scene) { 
 		scene.setOnKeyPressed(event -> {
 			// shoot a bullet
@@ -144,14 +173,16 @@ public class SpaceInvadersGUI extends Application{
 		
 	}
 	
+	/**
+	 * Starts a game of Space invaders.
+	 *
+	 * @param diff     the selected difficulty (1 for easy, 2 for medium, 3 for hard) 
+	 */
+	 
 	public void startGame(int diff) {
 		all.setTop(headPane);
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
-		//while(true) {
-		//	MoveWaiter mw = new MoveWaiter(1000, 2);
-		//	mw.run();
-		//}
 	    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
 	        aliens.moveAliens(2);
 	    }));
@@ -161,31 +192,6 @@ public class SpaceInvadersGUI extends Application{
 		
 	}
 	
-	private class MoveWaiter implements Runnable {
 
-		private int duration, distance;
-
-		private MoveWaiter(int ms, int distance) {
-			duration = ms;
-			this.distance = distance;
-		}
-
-		@Override
-		public void run() {
-
-			try {
-
-				Thread.sleep(duration);
-
-			} catch (InterruptedException e) {
-
-				e.printStackTrace();
-
-			}
-
-			aliens.moveAliens(distance);
-
-		}
-	}
 
 }

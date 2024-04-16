@@ -1,5 +1,11 @@
 package model;
 
+/**
+ * Represents an instance of a Space Invaders game. 
+ * 
+ * @author Claire Lodermeier
+ */
+
 public class Game {
 
 	private int score; 
@@ -12,26 +18,60 @@ public class Game {
 		gameOver = false;
 	}
 	
+	/**
+	 * Sets the score attribute of the game. 
+	 * 
+	 * @param score		The new score
+	 *  
+	 */
 	public void setScore(int score) {
 		this.score = score;
 	}
-
+	
+	/**
+	 * Sets the gameOver attribute of the game. 
+	 * 
+	 * @param gameOver	Boolean for whether the game is over
+	 *  
+	 */
 	public void setGameOver(boolean gameOver) {
 		this.gameOver = gameOver;
 	}
 	
+	/**
+	 * Gets the score attribute of the game. 
+	 * 
+	 * @return score		The current score of the game
+	 *  
+	 */
 	public int getScore() {
 		return score;
 	}
 	
+	/**
+	 * Gets the numLives attribute of the game. 
+	 * 
+	 * @return		The current number of lives in the game
+	 *  
+	 */
 	public int getNumLives() {
 		return numLives;
 	}
 	
+	/**
+	 * Gets the gameOver attribute of the game. 
+	 * 
+	 * return gameOver		the gameOver boolean (true if game is over, false if still playing)
+	 *  
+	 */
 	public boolean getGameOver() {
 		return gameOver;
 	}
 	
+	/**
+	 * Decrements the current number of lives by 1. 
+	 *  
+	 */
 	public void decrementLives() {
 		numLives--;
 	}
