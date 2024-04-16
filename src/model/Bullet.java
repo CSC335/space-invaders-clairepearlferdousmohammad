@@ -27,11 +27,11 @@ public class Bullet {
 	}
 
 	public void moveUp() {
-		this.yPosition -= 1;
+		this.yPosition -= 1.0;
 	}
 
 	public void moveDown() {
-		this.yPosition += 1;
+		this.yPosition += 1.0;
 	}
 
 	public Image getImage() {
@@ -44,24 +44,24 @@ public class Bullet {
 	
 	public void fire() {
 		if (!this.alienShoot) {
-			while (this.yPosition >= 0) {
-				moveUp();
+			while (this.yPosition >= 1) {
 				try {
 					// if waiting 2 milliseconds, it will take 1200 seconds to go across the screen
-					  Thread.sleep(2);
+					  Thread.sleep(1);
 					} catch (InterruptedException e) {
 					  Thread.currentThread().interrupt();
 					}
+				moveUp();
 			}
 		}
 		else {
-			while (this.yPosition <= 600) {
-				moveDown();
+			while (this.yPosition <= 599.0) {
 				try {
-					  Thread.sleep(2);
+					  Thread.sleep(1);
 					} catch (InterruptedException e) {
 					  Thread.currentThread().interrupt();
 					}
+				moveDown();
 			}
 		}
 	}
