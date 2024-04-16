@@ -1,5 +1,7 @@
 package view_controller;
 
+import java.util.ArrayList;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -52,7 +54,8 @@ public class SpaceInvadersGUI extends Application{
 	
 	private GraphicsContext gc;
 	private Canvas canvas;
-
+	
+	private Bullet[] bullets;
 	
 	public static void main(String[] args) {
 		launch();
@@ -72,6 +75,8 @@ public class SpaceInvadersGUI extends Application{
 			
 		tank = new PlayerTank(450,350);
 		aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
+		
+		bullets = new Bullet[0];
 		
 		menu = new MenuPane(this);
 		all.setCenter(menu);
@@ -143,21 +148,31 @@ public class SpaceInvadersGUI extends Application{
 	}
 	
 	/**
-	 * Sets up the starting canvas for the main view of the game GUI. 
+	 * Clears the canvas, and draws all the current Objects of the game. 
 	 *
 	 */
 	private void setupCanvas() {
+		
+		// basic canvas setup
 		gc.setStroke(Color.BLACK);
 		gc.setFill(Color.BLACK);
 		gc.strokeRect(0, 0, 800, 580);
 		gc.fillRect(0, 0, 800, 580);
-		
 		gc.setStroke(Color.CHARTREUSE);
 		gc.setLineWidth(3);
 		gc.strokeLine(0, 500, 800, 500);
+		
+		
+		// draw current objects
+		//tank.draw(gc);
+		//aliens.draw(gc);
+		for(Bullet b: bullets) {
+			//b.draw(gc);
+		}
 
 	}
-	 
+	
+
 	/**
 	 * Sets the handlers for user interaction with the GUI. 
 	 * 
@@ -167,7 +182,8 @@ public class SpaceInvadersGUI extends Application{
 		scene.setOnKeyPressed(event -> {
 			// shoot a bullet
 			if(event.getCode() == KeyCode.SPACE) {
-				// TODO
+				// TODO: create a new bullet object with location starting from tank
+				// add the bullet to bullets array
 			} 
 		});
 		
