@@ -1,6 +1,7 @@
 // @author: Frances Pearl McNabb
 package model;
 
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 public class PlayerTank {
@@ -43,6 +44,10 @@ public class PlayerTank {
 
 	public void addDamages(int damages) {
 		this.damages += damages;
+	}
+	
+	public void draw(GraphicsContext gc) {
+		gc.drawImage(image, xPosition, yPosition);
 	}
 
 }
