@@ -8,6 +8,7 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -33,6 +34,8 @@ import model.PlayerTank;
  */
 
 public class SpaceInvadersGUI extends Application{
+	
+	Timeline timeline;
 
 	private BorderPane all;
 	private GridPane headPane;
@@ -41,12 +44,11 @@ public class SpaceInvadersGUI extends Application{
 	private AlienCollection aliens;
 	
 	private MenuPane menu;
-	
+	private GameOverPane overPane;
+
 	private Label scoreLabel;
 	private Label score; 
 	private Label livesLabel;
-	private Label gameOverLabel; 
-	private Label playAgainLabel;
 	
 	private ImageView life1;
 	private ImageView life2;
@@ -56,6 +58,8 @@ public class SpaceInvadersGUI extends Application{
 	private Canvas canvas;
 	
 	private Bullet[] bullets;
+	
+	private Scene scene;
 	
 	public static void main(String[] args) {
 		launch();
@@ -79,6 +83,7 @@ public class SpaceInvadersGUI extends Application{
 		bullets = new Bullet[0];
 		
 		menu = new MenuPane(this);
+		overPane = new GameOverPane(this);
 		all.setCenter(menu);
 		
 		layoutPane();
@@ -86,10 +91,10 @@ public class SpaceInvadersGUI extends Application{
 		setupCanvas();
 		
 		stage.setTitle("SPACE INVADERS");
-		Scene scene = new Scene(all, 800, 600);
+		scene = new Scene(all, 800, 600);
 		stage.setScene(scene);
 		
-		setHandlers(scene);
+		setHandlers();
 
 		stage.show();
 	}
@@ -123,10 +128,7 @@ public class SpaceInvadersGUI extends Application{
 		headPane.add(life1, 260, 10, 5, 1);
 		headPane.add(life2, 280, 10, 5, 1);
 		headPane.add(life3, 300, 10, 5, 1);
-	
-		gameOverLabel = new Label("GAME OVER");
-		playAgainLabel = new Label("PLAY AGAIN?");
-		
+			
 
 	}
 	
@@ -178,7 +180,7 @@ public class SpaceInvadersGUI extends Application{
 	 * 
 	 * @param scene     the scene used by the GUI
 	 */
-	private void setHandlers(Scene scene) { 
+	private void setHandlers() { 
 		scene.setOnKeyPressed(event -> {
 			// shoot a bullet
 			if(event.getCode() == KeyCode.SPACE) {
@@ -190,23 +192,55 @@ public class SpaceInvadersGUI extends Application{
 	}
 	
 	/**
+	 * Disables the handlers for user interaction with the GUI. 
+	 * 
+	 */
+	private void disableHandlers() { 
+		scene.setOnKeyPressed(event -> {
+			return;
+		});
+		
+	}
+	
+	/**
 	 * Starts a game of Space invaders.
 	 *
 	 * @param diff     the selected difficulty (1 for easy, 2 for medium, 3 for hard) 
 	 */
-	 
 	public void startGame(int diff) {
 		all.setTop(headPane);
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
-	    Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+	    timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+	    	if(game.getGameOver()) {
+	    		endGame();
+	    		return;
+	    	}
 	        aliens.moveAliens(2);
+	        // setupCanvas();
 	    }));
 	    timeline.setCycleCount(Timeline.INDEFINITE);
 	    timeline.play();
 		
 		
 	}
+	
+	/**
+	 * Ends a game of Space invaders.
+	 *
+	 */
+	public void endGame() {
+		timeline.stop();
+		setupCanvas();
+		disableHandlers();
+		
+		all.setCenter(overPane);
+		
+		// TODO: show game over message and play sound
+		// prompt to play again
+		
+	}
+	
 	
 
 
