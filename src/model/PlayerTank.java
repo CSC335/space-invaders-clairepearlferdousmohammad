@@ -130,7 +130,6 @@ public class PlayerTank {
 	 */
 	public Bullet shoot() {
 		Bullet bullet = new Bullet((this.x1Position + this.x2Position) / 2, this.y1Position, "bullet1.png", false);
-		bullet.fire();
 		return bullet;
 	}
 

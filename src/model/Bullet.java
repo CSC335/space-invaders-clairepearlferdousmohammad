@@ -6,80 +6,94 @@ import javafx.scene.image.Image;
 /**
  * Represents an instance of a bullet within a Space Invaders game.
  * 
- * @author Pearl McNabb
+ * @author Pearl McNabb and MohammadHossein Rezaei
  */
 
 public class Bullet {
 
-	private float xPosition;
-	private float yPosition;
-	private boolean alienShoot;
+	private float xPosition1;
+	private float xPosition2;
+	private float yPosition1;
+	private float yPosition2;
 	private Image image;
+	private boolean alienShoot;
 
-	public Bullet(float x_1Position, float y_1Position, String fileName, boolean alienFire) {
-		this.xPosition = x_1Position;
-		this.yPosition = y_1Position;
+	/**
+	 * Constructs a new Bullet object.
+	 *
+	 * @param xPosition1  the initial x position of the bullet
+	 * @param xPosition2  the final x position of the bullet
+	 * @param fileName    the file name of the image for the bullet
+	 * @param alienFire   indicates whether the bullet is fired by an alien or not
+	 */
+	public Bullet(float xPosition1, float yPosition1, String fileName, boolean alienFire) {
+		this.xPosition1 = xPosition1;
+		this.xPosition2 = xPosition1 + 5;
+		this.yPosition1 = yPosition1;
+		this.yPosition2 = yPosition1 + 5;
 		this.image = new Image(getClass().getResourceAsStream(fileName));
 		this.alienShoot = alienFire;
 	}
 
 	/**
-	 * Gets the x-coordinate position of the bullet
-	 * 
-	 * @return xPosition The current x position of the bullet
+	 * Gets the first x-coordinate position of the bullet
+	 *
+	 * @return xPosition1 The current first x position of the bullet
 	 */
-	public float getX() {
-		return this.xPosition;
+	public float getXPosition1() {
+		return this.xPosition1;
 	}
 
 	/**
-	 * Gets the y-coordinate position of the bullet
-	 * 
-	 * @return yPosition The current y position of the bullet
+	 * Gets the second x-coordinate position of the bullet
+	 *
+	 * @return xPosition2 The current second x position of the bullet
 	 */
-	public float getY() {
-		return this.yPosition;
+	public float getXPosition2() {
+		return this.xPosition2;
 	}
 
 	/**
-	 * Decreases the y-coordinate position of the bullet by 1 Moves the bullet up in
-	 * terms of the canvas coordinate system
+	 * Gets the first y-coordinate position of the bullet
+	 *
+	 * @return yPosition1 The current first y position of the bullet
 	 */
-	public void moveUp() {
-		this.yPosition -= 1.0;
+	public float getYPosition1() {
+		return this.yPosition1;
 	}
 
 	/**
-	 * Increases the y-coordinate position of the bullet by 1 Moves the bullet up in
-	 * terms of the canvas coordinate system
+	 * Gets the second y-coordinate position of the bullet
+	 *
+	 * @return yPosition2 The current second y position of the bullet
 	 */
-	public void moveDown() {
-		this.yPosition += 1.0;
+	public float getYPosition2() {
+		return this.yPosition2;
 	}
 
-	/**
-	 * Gets the image to put on the canvas to represent the bullet
-	 * 
-	 * @return image The image that should be shown to represent the bullet
-	 */
-	public Image getImage() {
-		return this.image;
-	}
-
-	/**
-	 * Draws the bullet using the given image onto the graphics context
-	 * 
-	 * @param gc GraphicsContext gc that is used in the GUI
-	 */
 	public void draw(GraphicsContext gc) {
-		gc.drawImage(image, xPosition, yPosition);
+		gc.drawImage(this.image, this.xPosition1, this.yPosition1, this.xPosition2 - this.xPosition1,
+				this.yPosition2 - this.yPosition1);
+		// System.out.println("drawing the bullet at " + this.xPosition1 + " " + this.yPosition1);
+	}
+
+	public void move(double distance) {
+		if (alienShoot) {
+			// moves down
+			this.yPosition1 += distance;
+			this.yPosition2 += distance;
+		} else {
+			// moves up
+			this.yPosition1 -= distance;
+			this.yPosition2 -= distance;
+		}
 	}
 
 	/**
 	 * If an alien is firing down, the bullet moves down. If the tank is firing, the
 	 * bullet moves up. Both with sleep to make the bullet seem as though it is
 	 * moving and both move until hitting the edge of the canvas.
-	 */
+	 
 	public void fire() {
 		if (!this.alienShoot) {
 			while (this.yPosition >= 1) {
@@ -102,4 +116,5 @@ public class Bullet {
 			}
 		}
 	}
+	*/
 }

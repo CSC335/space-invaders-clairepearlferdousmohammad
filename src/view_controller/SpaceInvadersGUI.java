@@ -203,6 +203,7 @@ public class SpaceInvadersGUI extends Application {
 		aliens.draw();
 		for (Bullet b : bullets) {
 			b.draw(gc);
+			// System.out.println("drawing the bullet.");
 		}
 
 	}
@@ -259,6 +260,9 @@ public class SpaceInvadersGUI extends Application {
 				return;
 			}
 			aliens.moveAliens(2);
+			for (Bullet b : bullets) {
+				b.move(5);
+			}
 			setupCanvas();
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
