@@ -61,7 +61,7 @@ public class PlayerTank {
 	/**
 	 * Gets the amount of damage that the tank has taken during the game
 	 * 
-	 * @return damages The current damage on the tank
+	 * @return damages		The current damage on the tank
 	 */
 	public int getDamages() {
 		return damages;
@@ -70,7 +70,7 @@ public class PlayerTank {
 	/**
 	 * Gets the image to put on the canvas to represent the tank
 	 * 
-	 * @return image The image that should be shown to represent the tank
+	 * @return image 	The image that should be shown to represent the tank
 	 */
 	public Image getImage() {
 		return image;
@@ -92,7 +92,18 @@ public class PlayerTank {
 	 * @param gc GraphicsContext gc that is used in the GUI
 	 */
 	public void draw(GraphicsContext gc) {
-		gc.drawImage(image, xPosition, yPosition);
+		gc.drawImage(this.image, this.xPosition, this.yPosition);
+	}
+	
+	/**
+	 * Creates a bullet object from the tank, fires it, and then returns the object
+	 * 
+	 * @return bullet	initialized bullet object that is fired
+	 */
+	public Bullet shoot() {
+		Bullet bullet = new Bullet(this.xPosition, this.yPosition, "bullet1.png", false);
+		bullet.fire();
+		return bullet;
 	}
 
 }
