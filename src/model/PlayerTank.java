@@ -3,6 +3,8 @@ package model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+
+
 /**
  * Represents a playerTank, movable by the player, in an instance of a Space
  * Invaders game.
@@ -13,49 +15,73 @@ import javafx.scene.image.Image;
 public class PlayerTank {
 
 	private int damages;
-	private int xPosition;
-	private int yPosition;
+	private float x1Position;
+	private float x2Position;
+	private float y1Position;
+	private float y2Position;
 	private Image image;
 
-	public PlayerTank(int xPos, int yPos) {
+	public PlayerTank(float x1Pos, float y1Pos, float width, float height) {
 		this.damages = 0;
-		this.xPosition = xPos;
-		this.yPosition = yPos;
+		this.x1Position = x1Pos;
+		this.y1Position = y1Pos;
+		this.x2Position = x1Pos + width;
+		this.y2Position = y1Pos + height;
 		this.image = new Image(getClass().getResourceAsStream("tank.png"));
 	}
 
 	/**
-	 * Gets the x-coordinate position of the tank
+	 * Gets the x1-coordinate position of the tank
 	 * 
-	 * @return xPosition The current x position of the tank
+	 * @return x1Position The current x1 position of the tank
 	 */
-	public int getX() {
-		return this.xPosition;
+	public float getX1() {
+		return this.x1Position;
 	}
 
 	/**
-	 * Gets the y-coordinate position of the tank
+	 * Gets the x2-coordinate position of the tank
 	 * 
-	 * @return yPosition The current y position of the tank
+	 * @return x2Position The current x2 position of the tank
 	 */
-	public int getY() {
-		return this.yPosition;
+	public float getX2() {
+		return this.x2Position;
 	}
 
 	/**
-	 * Decreases the x-coordinate position of the tank by 1 Moves the tank left in
+	 * Gets the y1-coordinate position of the tank
+	 * 
+	 * @return y1Position The current y1 position of the tank
+	 */
+	public float getY1() {
+		return this.y1Position;
+	}
+
+	/**
+	 * Gets the y2-coordinate position of the tank
+	 * 
+	 * @return y2Position The current y2 position of the tank
+	 */
+	public float getY2() {
+		return this.y2Position;
+	}
+
+	/**
+	 * Decreases the x1-coordinate position of the tank by 1 Moves the tank left in
 	 * terms of the canvas coordinate system
 	 */
 	public void moveLeft() {
-		this.xPosition -= 1;
+		this.x1Position -= 1;
+		this.x2Position -= 1;
 	}
 
 	/**
-	 * Increases the x-coordinate position of the tank by 1 Moves the tank right in
+	 * Increases the x1-coordinate position of the tank by 1 Moves the tank right in
 	 * terms of the canvas coordinate system
 	 */
 	public void moveRight() {
-		this.xPosition += 1;
+		this.x1Position += 1;
+		this.x2Position += 1;
 	}
 
 	/**
@@ -92,7 +118,7 @@ public class PlayerTank {
 	 * @param gc GraphicsContext gc that is used in the GUI
 	 */
 	public void draw(GraphicsContext gc) {
-		gc.drawImage(this.image, this.xPosition, this.yPosition, 50, 40);
+		gc.drawImage(this.image, this.x1Position, this.y1Position, this.x2Position - this.x1Position, this.y2Position - this.y1Position);
 	}
 	
 	/**
@@ -101,7 +127,7 @@ public class PlayerTank {
 	 * @return bullet	initialized bullet object that is fired
 	 */
 	public Bullet shoot() {
-		Bullet bullet = new Bullet(this.xPosition, this.yPosition, "bullet1.png", false);
+		Bullet bullet = new Bullet((this.x1Position + this.x2Position) / 2, this.y1Position, "bullet1.png", false);
 		bullet.fire();
 		return bullet;
 	}
