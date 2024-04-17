@@ -2,11 +2,12 @@ package model;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 
 /**
  * Represents an instance of a bullet within a Space Invaders game.
  * 
- * @author Pearl McNabb and MohammadHossein Rezaei
+ * @author Pearl McNabb and MohammadHossein Rezaei and Claire Lodermeier
  */
 
 public class Bullet {
@@ -15,7 +16,7 @@ public class Bullet {
 	private float xPosition2;
 	private float yPosition1;
 	private float yPosition2;
-	private Image image;
+	//private Image image;
 	private boolean alienShoot;
 
 	/**
@@ -26,12 +27,12 @@ public class Bullet {
 	 * @param fileName    the file name of the image for the bullet
 	 * @param alienFire   indicates whether the bullet is fired by an alien or not
 	 */
-	public Bullet(float xPosition1, float yPosition1, String fileName, boolean alienFire) {
+	public Bullet(float xPosition1, float yPosition1, boolean alienFire) {
 		this.xPosition1 = xPosition1;
 		this.xPosition2 = xPosition1 + 50;
 		this.yPosition1 = yPosition1;
 		this.yPosition2 = yPosition1 + 200;
-		this.image = new Image(getClass().getResourceAsStream(fileName));
+		//this.image = new Image(getClass().getResourceAsStream(fileName));
 		this.alienShoot = alienFire;
 	}
 
@@ -72,8 +73,20 @@ public class Bullet {
 	}
 
 	public void draw(GraphicsContext gc) {
-		gc.drawImage(this.image, this.xPosition1, this.yPosition1, this.xPosition2 - this.xPosition1,
-				this.yPosition2 - this.yPosition1);
+		//gc.drawImage(this.image, this.xPosition1, this.yPosition1, this.xPosition2 - this.xPosition1,
+				//this.yPosition2 - this.yPosition1);
+		if(this.alienShoot) {
+			gc.setFill(Color.ORANGE);
+			gc.setStroke(Color.ORANGE);
+		}
+		else {
+			gc.setFill(Color.CYAN);
+			gc.setStroke(Color.CYAN);
+		}
+
+
+		gc.strokeRect(xPosition1, yPosition1, 2, 15);
+		gc.fillRect(xPosition1, yPosition1, 2, 15);
 		// System.out.println("drawing the bullet at " + this.xPosition1 + " " + this.yPosition1);
 	}
 

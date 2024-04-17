@@ -254,14 +254,14 @@ public class SpaceInvadersGUI extends Application {
 		all.setTop(headPane);
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
-		timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
+		timeline = new Timeline(new KeyFrame(Duration.millis(80), event -> {
 			if (game.getGameOver()) {
 				endGame();
 				return;
 			}
 			aliens.moveAliens(2);
 			for (Bullet b : bullets) {
-				b.move(5);
+				b.move(30);
 			}
 			setupCanvas();
 		}));

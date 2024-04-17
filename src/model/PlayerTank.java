@@ -129,7 +129,7 @@ public class PlayerTank {
 	 * @return bullet	initialized bullet object that is fired
 	 */
 	public Bullet shoot() {
-		Bullet bullet = new Bullet((this.x1Position + this.x2Position) / 2, this.y1Position, "bullet1.png", false);
+		Bullet bullet = new Bullet(((this.x1Position + this.x2Position) / 2) - 1, this.y1Position-10, false);
 		return bullet;
 	}
 
