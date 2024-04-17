@@ -114,7 +114,7 @@ public class Alien {
 	 * @return the bullet object
 	 */
 	public Bullet shoot() {
-		return new Bullet(this.x_1Position, this.y_1Position, "bullet2.png");
+		return new Bullet(this.x_1Position, this.y_1Position, "bullet2.png", true);
 	}
 
 	/**
