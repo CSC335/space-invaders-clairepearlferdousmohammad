@@ -219,6 +219,7 @@ public class SpaceInvadersGUI extends Application {
 				// create a new bullet object with location starting from tank
 				// add the bullet to bullets array
 				bullets.add(tank.shoot());
+				setupCanvas();
 			}
 		});
 
