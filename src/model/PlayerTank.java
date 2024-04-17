@@ -92,7 +92,7 @@ public class PlayerTank {
 	 * @param gc GraphicsContext gc that is used in the GUI
 	 */
 	public void draw(GraphicsContext gc) {
-		gc.drawImage(this.image, this.xPosition, this.yPosition);
+		gc.drawImage(this.image, this.xPosition, this.yPosition, 50, 40);
 	}
 	
 	/**

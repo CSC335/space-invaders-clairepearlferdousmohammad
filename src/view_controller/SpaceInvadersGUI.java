@@ -87,7 +87,7 @@ public class SpaceInvadersGUI extends Application {
 		canvas = new Canvas(800, 600);
 		gc = canvas.getGraphicsContext2D();
 
-		tank = new PlayerTank(450, 350);
+		tank = new PlayerTank(350, 450);
 		aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
 
 		bullets = new ArrayList<Bullet>();
@@ -218,7 +218,7 @@ public class SpaceInvadersGUI extends Application {
 			if (event.getCode() == KeyCode.SPACE) {
 				// create a new bullet object with location starting from tank
 				// add the bullet to bullets array
-				// bullets.add(tank.shoot());
+				bullets.add(tank.shoot());
 			}
 		});
 
@@ -271,7 +271,6 @@ public class SpaceInvadersGUI extends Application {
 		// TODO: play sound
 
 		// save score
-
 		saveScore();
 
 	}
