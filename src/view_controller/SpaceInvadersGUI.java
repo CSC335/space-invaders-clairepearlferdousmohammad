@@ -220,7 +220,15 @@ public class SpaceInvadersGUI extends Application {
 				// add the bullet to bullets array
 				bullets.add(tank.shoot());
 				setupCanvas();
-			} 
+			// move tank left
+			} else if (event.getCode() == KeyCode.LEFT) {
+				tank.moveLeft(8);
+				setupCanvas();
+			// move tank right
+			} else if (event.getCode() == KeyCode.RIGHT) {
+				tank.moveRight(8);
+				setupCanvas();
+			}
 		});
 
 	}

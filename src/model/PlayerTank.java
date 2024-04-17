@@ -67,21 +67,23 @@ public class PlayerTank {
 	}
 
 	/**
-	 * Decreases the x1-coordinate position of the tank by 1 Moves the tank left in
-	 * terms of the canvas coordinate system
+	 * Moves the tank left by the specified distance in terms of the canvas coordinate system
+	 * 
+	 * @param d The distance to move the tank left
 	 */
-	public void moveLeft() {
-		this.x1Position -= 1;
-		this.x2Position -= 1;
+	public void moveLeft(double d) {
+		this.x1Position -= d;
+		this.x2Position -= d;
 	}
 
 	/**
-	 * Increases the x1-coordinate position of the tank by 1 Moves the tank right in
-	 * terms of the canvas coordinate system
+	 * Moves the tank right by the specified distance in terms of the canvas coordinate system
+	 * 
+	 * @param d The distance to move the tank right
 	 */
-	public void moveRight() {
-		this.x1Position += 1;
-		this.x2Position += 1;
+	public void moveRight(double d) {
+		this.x1Position += d;
+		this.x2Position += d;
 	}
 
 	/**
