@@ -1,4 +1,5 @@
 package model;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 // @author: MohammadHossein Rezaei
@@ -124,5 +125,16 @@ public class Alien {
 	 */
 	public Image getImage() {
 		return this.image;
+	}
+
+	/**
+	 * Draws the alien on the specified GraphicsContext with the given width and height.
+	 *
+	 * @param gc     the GraphicsContext on which to draw the alien
+	 * @param width  the width of the alien
+	 * @param height the height of the alien
+	 */
+	public void draw(GraphicsContext gc, float width, float height) {
+		gc.drawImage(this.image, this.x_1Position, this.y_1Position, width, height);
 	}
 }

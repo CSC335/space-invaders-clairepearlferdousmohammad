@@ -67,7 +67,7 @@ public class SpaceInvadersGUI extends Application {
 	private String fileName = "scores.ser";
 
 	public static void main(String[] args) {
-		launch();
+		launch(args);
 	}
 
 	/**
@@ -115,6 +115,7 @@ public class SpaceInvadersGUI extends Application {
 	 * @throws Exception
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	private void readScores() throws Exception {
 
 		try {
@@ -199,7 +200,7 @@ public class SpaceInvadersGUI extends Application {
 
 		// draw current objects
 		tank.draw(gc);
-		// aliens.draw(gc);
+		aliens.draw();
 		for (Bullet b : bullets) {
 			b.draw(gc);
 		}
@@ -249,7 +250,7 @@ public class SpaceInvadersGUI extends Application {
 				return;
 			}
 			aliens.moveAliens(2);
-			// setupCanvas();
+			setupCanvas();
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();

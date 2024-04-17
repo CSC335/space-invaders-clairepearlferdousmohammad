@@ -16,7 +16,7 @@ public class AllienTest {
 	
 	@Test
 	void testAlienConstructorAndGetters() {
-		Alien alien = new AlienType1(100, 150);
+		Alien alien = new AlienType1(100, 150, 0, 0);
 		assertEquals(100, alien.getX());
 		assertEquals(150, alien.getY());
 		assertNotNull(alien.getImage());
