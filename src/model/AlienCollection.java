@@ -145,7 +145,9 @@ public class AlienCollection {
 			}
 
 			for (Alien alien : aliens) {
-				alien.moveDown(alienHeight + verticalMargin);
+				// alien.moveDown(alienHeight + verticalMargin);
+				// aliens move down by a smaller height
+				alien.moveDown((alienHeight + verticalMargin) * 0.2);
 				if (movingDirection == 1) {
 					alien.moveRight(gridWidth - rightMost);
 					alien.moveLeft(distance - (gridWidth - rightMost));

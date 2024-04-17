@@ -81,11 +81,11 @@ public class Alien {
 	/**
 	 * Moves the alien down by the specified distance.
 	 *
-	 * @param distance  the distance to move down
+	 * @param d  the distance to move down
 	 */
-	public void moveDown(float distance) {
-		this.y_1Position += distance;
-		this.y_2Position += distance;
+	public void moveDown(double d) {
+		this.y_1Position += d;
+		this.y_2Position += d;
 	}
 
 	/**
