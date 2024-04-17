@@ -1,5 +1,7 @@
 package view_controller;
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -34,6 +36,7 @@ public class MenuPane extends GridPane {
 
 	public MenuPane(SpaceInvadersGUI gui) {
 		createNodes();
+		setScores(gui.getScores());
 		styleMenu();
 		layoutMenu();
 		setHandler(gui);
@@ -62,11 +65,28 @@ public class MenuPane extends GridPane {
 
 		tg = new ToggleGroup();
 		tg.getToggles().addAll(radios);
-		score1Label = new Label("0");
-		score2Label = new Label("0");
-		score3Label = new Label("0");
+		score1Label = new Label("--");
+		score2Label = new Label("--");
+		score3Label = new Label("--");
 
 		startButton = new Button("START");
+
+	}
+	
+	/**
+	 * Sets up the GUI for the menu that displays before a game starts.
+	 * 
+	 */
+	private void setScores(ArrayList<Integer> scores) {
+		if(scores.size()>=1) {
+			score1Label.setText(""+scores.get(0));
+		}
+		if(scores.size()>=2) {
+			score2Label.setText(""+scores.get(1));
+		}
+		if(scores.size()>=3) {
+			score3Label.setText(""+scores.get(2));
+		}
 
 	}
 
@@ -144,7 +164,7 @@ public class MenuPane extends GridPane {
 	 * Sets handler for when the user clicks start.
 	 * 
 	 * @param gui The GUI used to display the game.
-	 * 
+	 *  
 	 */
 	private void setHandler(SpaceInvadersGUI gui) {
 		startButton.setOnAction(event -> {

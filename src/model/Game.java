@@ -61,7 +61,7 @@ public class Game {
 	/**
 	 * Gets the gameOver attribute of the game. 
 	 * 
-	 * return gameOver		the gameOver boolean (true if game is over, false if still playing)
+	 * @return gameOver		the gameOver boolean (true if game is over, false if still playing)
 	 *  
 	 */
 	public boolean getGameOver() {

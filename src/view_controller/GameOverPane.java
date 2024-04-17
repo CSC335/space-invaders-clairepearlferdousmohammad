@@ -29,7 +29,7 @@ public class GameOverPane extends GridPane {
 		setHandler(gui);
 	}
 
-	/**
+	/** 
 	 * Creates the javafx nodes the gameOver pane.
 	 * 
 	 */
@@ -85,7 +85,12 @@ public class GameOverPane extends GridPane {
 	 */
 	private void setHandler(SpaceInvadersGUI gui) {
 		playAgainButton.setOnAction(event -> {
-			gui.start(new Stage());
+			try {
+				gui.start(new Stage());
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		});
 	}
 }
