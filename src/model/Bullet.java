@@ -28,9 +28,9 @@ public class Bullet {
 	 */
 	public Bullet(float xPosition1, float yPosition1, String fileName, boolean alienFire) {
 		this.xPosition1 = xPosition1;
-		this.xPosition2 = xPosition1 + 5;
+		this.xPosition2 = xPosition1 + 50;
 		this.yPosition1 = yPosition1;
-		this.yPosition2 = yPosition1 + 5;
+		this.yPosition2 = yPosition1 + 200;
 		this.image = new Image(getClass().getResourceAsStream(fileName));
 		this.alienShoot = alienFire;
 	}
