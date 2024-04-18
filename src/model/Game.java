@@ -49,6 +49,16 @@ public class Game {
 	}
 	
 	/**
+	 * Increments the score attribute of the game by amount.
+	 * 
+	 * @param amount		The amount to add
+	 *  
+	 */
+	public void incrementScore(int amount) {
+		score += amount;
+	}
+	
+	/**
 	 * Gets the numLives attribute of the game. 
 	 * 
 	 * @return		The current number of lives in the game

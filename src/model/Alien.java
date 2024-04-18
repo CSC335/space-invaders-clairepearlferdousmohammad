@@ -8,7 +8,7 @@ import javafx.scene.image.Image;
  * The Alien class represents an alien object in a game.
  * It contains methods to move the alien, shoot bullets, and retrieve its image.
  */
-public class Alien {
+public abstract class Alien {
 	private float x_1Position;
 	private float x_2Position;
 	private float y_1Position;
@@ -137,4 +137,11 @@ public class Alien {
 	public void draw(GraphicsContext gc, float width, float height) {
 		gc.drawImage(this.image, this.x_1Position, this.y_1Position, width, height);
 	}
+	
+	/**
+	 * Returns the number for type of Alien (1, 2, or 3).
+	 * 	 
+	 * @return num	the number for the Alien Type
+	 */
+	public abstract int getTypeNum();
 }

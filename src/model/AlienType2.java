@@ -5,4 +5,9 @@ public class AlienType2 extends Alien {
         super(xPos1, xPos2, yPos1, yPos2, "SI_Alien2.png");
     }
 
+	@Override
+	public int getTypeNum() {
+		return 2;
+	}
+
 }

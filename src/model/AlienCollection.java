@@ -198,21 +198,25 @@ public class AlienCollection {
 	 * @param y  the y-coordinate
 	 * @return true if the coordinates are inside an alien, false otherwise
 	 */
-	public Boolean doesHit(float x1, float x2, float y) {
+	public int doesHit(float x1, float x2, float y) {
 		/**
 		 * This method will check if the given x1, x2, and y are inside any of the
-		 * aliens in the collection. If so, it will return true and remove the alien
-		 * from the collection. Otherwise, it will return false.
+		 * aliens in the collection. If so, it will return the int for the Alien type (1, 2, 3).
+		 * If not, it will return 0. 
+		 * 
+		 * @param x1	the x coordinate of the left side of the bullet
+		 * @param x2	the x coordinate of the right side of the bullet
+		 * @param y		the y coordinate of the top of the bullet
 		 */
 		// iterate backwards so the lower aliens are hit first
 		for (int i=aliens.size()-1;i>=0;i--) {
 			Alien alien = aliens.get(i);
 			if (alien.getX1() < x2 && alien.getX2() > x1 && alien.getY1() < y && alien.getY2()+15 > y) {
 				aliens.remove(alien);
-				return true;
+				return alien.getTypeNum();
 			}
 		}
-		return false;
+		return 0;
 	}
 
 	/**
