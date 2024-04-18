@@ -201,9 +201,17 @@ public class SpaceInvadersGUI extends Application {
 		// draw current objects
 		tank.draw(gc);
 		aliens.draw();
-		for (Bullet b : bullets) {
+		for (int i=0;i<bullets.size();i++) {
+			Bullet b = bullets.get(i);
 			b.draw(gc);
-			// System.out.println("drawing the bullet.");
+			if(aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1())) {
+				// alien explosion animation
+				bullets.remove(b);
+			}
+			// remove bullets once off the screen
+			else if(b.getYPosition2() < 0) {
+				bullets.remove(b);
+			}
 		}
 
 	}

@@ -16,23 +16,23 @@ public class Bullet {
 	private float xPosition2;
 	private float yPosition1;
 	private float yPosition2;
-	//private Image image;
 	private boolean alienShoot;
+	private int height, width;
 
 	/**
 	 * Constructs a new Bullet object.
 	 *
 	 * @param xPosition1  the initial x position of the bullet
 	 * @param xPosition2  the final x position of the bullet
-	 * @param fileName    the file name of the image for the bullet
 	 * @param alienFire   indicates whether the bullet is fired by an alien or not
 	 */
 	public Bullet(float xPosition1, float yPosition1, boolean alienFire) {
+		this.height = 15; 
+		this.width = 2; 
 		this.xPosition1 = xPosition1;
-		this.xPosition2 = xPosition1 + 50;
+		this.xPosition2 = xPosition1 + width;
 		this.yPosition1 = yPosition1;
-		this.yPosition2 = yPosition1 + 200;
-		//this.image = new Image(getClass().getResourceAsStream(fileName));
+		this.yPosition2 = yPosition1 + height;
 		this.alienShoot = alienFire;
 	}
 
@@ -73,8 +73,6 @@ public class Bullet {
 	}
 
 	public void draw(GraphicsContext gc) {
-		//gc.drawImage(this.image, this.xPosition1, this.yPosition1, this.xPosition2 - this.xPosition1,
-				//this.yPosition2 - this.yPosition1);
 		if(this.alienShoot) {
 			gc.setFill(Color.ORANGE);
 			gc.setStroke(Color.ORANGE);
@@ -85,11 +83,14 @@ public class Bullet {
 		}
 
 
-		gc.strokeRect(xPosition1, yPosition1, 2, 15);
-		gc.fillRect(xPosition1, yPosition1, 2, 15);
-		// System.out.println("drawing the bullet at " + this.xPosition1 + " " + this.yPosition1);
+		gc.strokeRect(xPosition1, yPosition1, width, height);
+		gc.fillRect(xPosition1, yPosition1, width, height);
 	}
 
+	/**
+	 * Moves the bullet up or down, depending on shooter. 
+	 * 	 
+	 */
 	public void move(double distance) {
 		if (alienShoot) {
 			// moves down
