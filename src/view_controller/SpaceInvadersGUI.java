@@ -1,24 +1,17 @@
 package view_controller;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.Optional;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
@@ -72,6 +65,7 @@ public class SpaceInvadersGUI extends Application {
 
 	private ArrayList<Integer> scores;
 	private String fileName = "scores.ser";
+	private SoundManager soundM;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -93,6 +87,8 @@ public class SpaceInvadersGUI extends Application {
 		game = new Game();
 		canvas = new Canvas(800, 600);
 		gc = canvas.getGraphicsContext2D();
+		
+		soundM = new SoundManager();
 
 		tank = new PlayerTank(350, 450, 50, 40);
 		aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
@@ -111,7 +107,7 @@ public class SpaceInvadersGUI extends Application {
 		scene = new Scene(all, 800, 600);
 		stage.setScene(scene);
 
-		setHandlers(stage);
+		setHandlers();
 
 		stage.show();
 	}
@@ -208,32 +204,9 @@ public class SpaceInvadersGUI extends Application {
 		// draw current objects
 		tank.draw(gc);
 		aliens.draw();
-		for (int i=0;i<bullets.size();i++) {
-			Bullet b = bullets.get(i);
+		for (Bullet b : bullets) {
 			b.draw(gc);
-			int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
-			if(alienType!=0) {
-			// TODO: alien explosion animation
-				bullets.remove(b);
-				
-				// increment score for hitting alien
-				if(alienType==1) {
-					game.incrementScore(10);
-				}
-				else if(alienType==2) {
-					game.incrementScore(20);
-				}
-				else if(alienType==3) {
-					game.incrementScore(40);
-				}
-				
-				// update score on the gui
-				score.setText(""+game.getScore());
-			}
-			// remove bullets once off the screen
-			else if(b.getYPosition2() < 0) {
-				bullets.remove(b);
-			}
+			// System.out.println("drawing the bullet.");
 		}
 
 	}
@@ -241,18 +214,16 @@ public class SpaceInvadersGUI extends Application {
 	/**
 	 * Sets the handlers for user interaction with the GUI.
 	 * 
-	 * @param stage the stage used by the GUI
-	 * 
+	 * @param scene the scene used by the GUI
 	 */
-	private void setHandlers(Stage stage) {
+	private void setHandlers() {
 		scene.setOnKeyPressed(event -> {
-			// shoot a bullet
+			// shoot a bulletDocuments
 			if (event.getCode() == KeyCode.SPACE) {
 				// create a new bullet object with location starting from tank
 				// add the bullet to bullets array
-				if(!(bullets.contains(tank.getCurrentBullet()))) {
-					bullets.add(tank.shoot());
-				}
+				soundM.playSound("Shooting");
+				bullets.add(tank.shoot());
 				setupCanvas();
 			// move tank left
 			} else if (event.getCode() == KeyCode.LEFT) {
@@ -263,11 +234,6 @@ public class SpaceInvadersGUI extends Application {
 				tank.moveRight(8);
 				setupCanvas();
 			}
-		});
-		
-		// save score when closing
-		stage.setOnCloseRequest(event -> {
-			saveScore();
 		});
 
 	}
@@ -292,15 +258,17 @@ public class SpaceInvadersGUI extends Application {
 		all.setTop(headPane);
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
-		timeline = new Timeline(new KeyFrame(Duration.millis(80), event -> {
+		soundM.playSound("GameStart");
+		timeline = new Timeline(new KeyFrame(Duration.millis(100), event -> {
 			if (game.getGameOver()) {
 				endGame();
 				return;
 			}
 			aliens.moveAliens(2);
 			for (Bullet b : bullets) {
-				b.move(30);
+				b.move(5);
 			}
+			soundM.playBackgroundMusic();
 			setupCanvas();
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
@@ -318,8 +286,8 @@ public class SpaceInvadersGUI extends Application {
 		disableHandlers();
 
 		all.setCenter(overPane);
-
-		// TODO: play sound
+		soundM.stopBackgroundMusic();
+		soundM.playSound("Death");
 
 		// save score
 		saveScore();
@@ -358,16 +326,6 @@ public class SpaceInvadersGUI extends Application {
 		while(scores.size()>3) {
 			scores.remove(scores.size()-1);
 			
-		}
-		
-		try {
-			FileOutputStream bytesToDisk = new FileOutputStream(fileName);
-			ObjectOutputStream outFile = new ObjectOutputStream(bytesToDisk);
-
-			outFile.writeObject(scores);
-			outFile.close();
-		} catch (IOException io) {
-			System.out.println("Writing scores failed\n" + io);
 		}
 
 	}
