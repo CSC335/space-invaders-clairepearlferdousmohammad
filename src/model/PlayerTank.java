@@ -9,7 +9,7 @@ import javafx.scene.image.Image;
  * Represents a playerTank, movable by the player, in an instance of a Space
  * Invaders game.
  * 
- * @author Pearl McNabb
+ * @author Pearl McNabb and Claire Lodermeier
  */
 
 public class PlayerTank {
@@ -21,6 +21,8 @@ public class PlayerTank {
 	private float y2Position;
 	private Image image;
 
+	private Bullet currentBullet;
+	
 	public PlayerTank(float x1Pos, float y1Pos, float width, float height) {
 		this.damages = 0;
 		this.x1Position = x1Pos;
@@ -28,8 +30,19 @@ public class PlayerTank {
 		this.x2Position = x1Pos + width;
 		this.y2Position = y1Pos + height;
 		this.image = new Image(getClass().getResourceAsStream("tank.png"));
+		this.currentBullet = null;
 	}
 
+	/**
+	 * Returns the Bullet most recently shot by the Tank
+	 * 
+	 * @return currentBullet 	the Bullet most recently shot by the Tank
+	 */
+	public Bullet getCurrentBullet() {
+		return this.currentBullet;
+	}
+
+	
 	/**
 	 * Gets the x1-coordinate position of the tank
 	 * 
@@ -129,8 +142,8 @@ public class PlayerTank {
 	 * @return bullet	initialized bullet object that is fired
 	 */
 	public Bullet shoot() {
-		Bullet bullet = new Bullet(((this.x1Position + this.x2Position) / 2) - 1, this.y1Position-10, false);
-		return bullet;
+		currentBullet = new Bullet(((this.x1Position + this.x2Position) / 2) - 1, this.y1Position-10, false);
+		return currentBullet;
 	}
 
 }

@@ -250,7 +250,9 @@ public class SpaceInvadersGUI extends Application {
 			if (event.getCode() == KeyCode.SPACE) {
 				// create a new bullet object with location starting from tank
 				// add the bullet to bullets array
-				bullets.add(tank.shoot());
+				if(!(bullets.contains(tank.getCurrentBullet()))) {
+					bullets.add(tank.shoot());
+				}
 				setupCanvas();
 			// move tank left
 			} else if (event.getCode() == KeyCode.LEFT) {
