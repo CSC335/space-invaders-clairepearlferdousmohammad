@@ -1,7 +1,14 @@
 package model;
 
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
+import javafx.util.Duration;
 
 import java.util.ArrayList;
 
@@ -25,6 +32,9 @@ public class AlienCollection {
 	private float alienHeight;
 	private float horizontalMargin;
 	private float verticalMargin;
+	
+	// for animations
+	private Timeline timeline;
 
 	private int movingDirection = 1; // 1 for right, -1 for left
 
@@ -213,6 +223,9 @@ public class AlienCollection {
 			Alien alien = aliens.get(i);
 			if (alien.getX1() < x2 && alien.getX2() > x1 && alien.getY1() < y && alien.getY2()+15 > y) {
 				aliens.remove(alien);
+				// this is for animation of the destruction
+				timeline = new Timeline(new KeyFrame(Duration.millis(90), new AnimateStarter(x1, x2, y, this.alienHeight, this.gameGC, this.timeline)));
+				
 				return alien.getTypeNum();
 			}
 		}
@@ -261,6 +274,47 @@ public class AlienCollection {
 		for (Alien alien : aliens) {
 			alien.draw(gameGC, alienWidth, alienHeight);
 		}
+	}
+	
+	private class AnimateStarter implements EventHandler<ActionEvent> {
+		private int tic = 0;
+		private float x1;
+		private float x2;
+		private float y;
+		private float height;
+		private double sx, sy, sw, sh, dx, dy, dw, dh;
+		private Timeline timeline;
+		private GraphicsContext gc;
+		
+		public AnimateStarter(float x1, float x2, float y, float height, GraphicsContext gc, Timeline timeline) {
+			this.x1 = x1;
+			this.x2 = x2;
+			this.y = y;
+			this.height = height;
+			this.gc = gc;
+			this.timeline = timeline;
+			sx = 36;
+			sy = 62;
+			sw = 200;
+			sh = 200;
+			dx = this.x1;
+			dy = this.y;
+			dw = this.x2-this.x1;
+			dh = this.height;
+		}
+		@Override
+		public void handle(ActionEvent arg0) {
+			tic++;
+			Image picture = new Image(getClass().getResourceAsStream("alienExplode.png"));
+			gc.drawImage(picture, sx, sy, sw, sh, dx, dy, dw, dh);
+			sx += 200;
+			if (tic >= 6) {
+			timeline.stop();
+			sx = 0;
+			}
+			
+		}
+		
 	}
 
 }
