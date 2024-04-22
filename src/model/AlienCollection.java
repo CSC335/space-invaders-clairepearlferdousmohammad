@@ -84,12 +84,12 @@ public class AlienCollection {
 		Alien nalien;
 		for (int i = 0; i < numRow; i++) {
 			for (int j = 0; j < numAlienInRow; j++) {
-				if (i % 3 == 0) {
+				if (i % 5 == 3 || i % 5 == 4) {
 					nalien = new AlienType1(j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
 							i * (alienHeight + verticalMargin) + verticalMargin,
 							j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
 							i * (alienHeight + verticalMargin) + verticalMargin + alienHeight);
-				} else if (i % 3 == 1) {
+				} else if (i % 5 == 1 || i % 5 == 2) {
 					nalien = new AlienType2(j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
 							i * (alienHeight + verticalMargin) + verticalMargin,
 							j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
@@ -288,4 +288,23 @@ public class AlienCollection {
 			alien.draw(gameGC, alienWidth, alienHeight);
 		}
 	}	
+
+	public Bullet shootRandom() {
+		// randomly select a type3 alien to shoot 
+		
+		// get all type 3 aliens
+		ArrayList<Alien> type3Aliens = new ArrayList<>();
+		for (Alien alien : aliens) {
+			if (alien.getTypeNum() == 3) {
+				type3Aliens.add(alien);
+			}
+		}
+		if (type3Aliens.size() == 0) {
+			return null;
+		}
+		// randomly select one of them
+		int randomIndex = (int) (Math.random() * type3Aliens.size());
+		Alien alien = type3Aliens.get(randomIndex);
+		return alien.shoot();
+	}
 }
