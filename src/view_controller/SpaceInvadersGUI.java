@@ -144,6 +144,16 @@ public class SpaceInvadersGUI extends Application {
 
 	}
 
+	
+	/**
+	 * Sets the difficulty.
+	 * 
+	 * @param diffi	the int for difficulty
+	 */
+	public void setDiffi(int diffi) {
+		this.diffi = diffi;
+	}
+	
 	/**
 	 * Sets up the head pane for the GUI.
 	 * 
@@ -220,7 +230,7 @@ public class SpaceInvadersGUI extends Application {
 			int alienType = as.getAlienType();
 			
 			
-			if (alienType!=0) {
+			if (alienType!=null && alienType!=0) {
 			// TODO: alien explosion animation
 				bullets.remove(b);
 
@@ -326,7 +336,11 @@ public class SpaceInvadersGUI extends Application {
 			
 			if(indextime%7==0) {
 				if ((indextime) % (11 - diffi) == 0) {
-					aliens.shootRandom();
+					Bullet alienBullet = aliens.shootRandom();
+					if(alienBullet!=null) {
+						bullets.add(alienBullet);
+					}
+				
 				}
 			}
 			

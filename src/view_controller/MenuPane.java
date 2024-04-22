@@ -182,8 +182,10 @@ public class MenuPane extends GridPane {
 			} else if (tg.getSelectedToggle().equals(hardButton)) {
 				diff = 3;
 			}
+			
+			gui.setDiffi(diff);
 
-			gui.startGame(diff);
+			gui.startGame();
 		});
 	}
 }
