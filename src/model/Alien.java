@@ -14,6 +14,9 @@ public abstract class Alien {
 	private float y_1Position;
 	private float y_2Position;
 	private Image image;
+	private Image image2;
+	private boolean armUp = true;
+	private int flipIndex = 0;
 
 	/**
 	 * Constructs an Alien object with the specified positions and image file.
@@ -24,12 +27,13 @@ public abstract class Alien {
 	 * @param y2Pos     the y-coordinate of the second position bottom left
 	 * @param fileName  the file name of the image
 	 */
-	public Alien(float x1Pos, float x2Pos, float y1Pos, float y2Pos, String fileName) {
+	public Alien(float x1Pos, float x2Pos, float y1Pos, float y2Pos, String fileName, String fileName2) {
 		this.x_1Position = x1Pos;
 		this.x_2Position = x2Pos;
 		this.y_1Position = y1Pos;
 		this.y_2Position = y2Pos;
 		this.image = new Image(getClass().getResourceAsStream(fileName));
+		this.image2 = new Image(getClass().getResourceAsStream(fileName2));
 	}
 
 	/**
@@ -124,7 +128,17 @@ public abstract class Alien {
 	 * @return the image of the alien
 	 */
 	public Image getImage() {
-		return this.image;
+		// return this.image;
+		if (flipIndex % 12 == 0) {
+			armUp = !armUp;
+			flipIndex = 0;
+		}
+		flipIndex++;
+		if (armUp) {
+			return this.image;
+		} else {
+			return this.image2;
+		}
 	}
 
 	/**
@@ -135,7 +149,7 @@ public abstract class Alien {
 	 * @param height the height of the alien
 	 */
 	public void draw(GraphicsContext gc, float width, float height) {
-		gc.drawImage(this.image, this.x_1Position, this.y_1Position, width, height);
+		gc.drawImage(getImage(), this.x_1Position, this.y_1Position, width, height);
 	}
 	
 	/**
