@@ -148,9 +148,7 @@ public class PlayerTank {
 	
 	public TankDestroy doesHit(float x1, float x2, float y) {
 		/**
-		 * This method will check if the given x1, x2, and y are inside any of the
-		 * aliens in the collection. If so, it will return the int for the Alien type (1, 2, 3).
-		 * If not, it will return 0. 
+		 * Will determine if a tank is being hit, will return animator for destroying the tank
 		 * 
 		 * @param x1	the x coordinate of the left side of the bullet
 		 * @param x2	the x coordinate of the right side of the bullet
