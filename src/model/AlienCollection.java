@@ -288,4 +288,23 @@ public class AlienCollection {
 			alien.draw(gameGC, alienWidth, alienHeight);
 		}
 	}	
+
+	public Bullet shootRandom() {
+		// randomly select a type3 alien to shoot 
+		
+		// get all type 3 aliens
+		ArrayList<Alien> type3Aliens = new ArrayList<>();
+		for (Alien alien : aliens) {
+			if (alien.getTypeNum() == 3) {
+				type3Aliens.add(alien);
+			}
+		}
+		if (type3Aliens.size() == 0) {
+			return null;
+		}
+		// randomly select one of them
+		int randomIndex = (int) (Math.random() * type3Aliens.size());
+		Alien alien = type3Aliens.get(randomIndex);
+		return alien.shoot();
+	}
 }
