@@ -84,12 +84,12 @@ public class AlienCollection {
 		Alien nalien;
 		for (int i = 0; i < numRow; i++) {
 			for (int j = 0; j < numAlienInRow; j++) {
-				if (i % 3 == 0) {
+				if (i % 5 == 3 || i % 5 == 4) {
 					nalien = new AlienType1(j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
 							i * (alienHeight + verticalMargin) + verticalMargin,
 							j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
 							i * (alienHeight + verticalMargin) + verticalMargin + alienHeight);
-				} else if (i % 3 == 1) {
+				} else if (i % 5 == 1 || i % 5 == 2) {
 					nalien = new AlienType2(j * (alienWidth + horizontalMargin) + horizontalMargin + moveMargin / 2,
 							i * (alienHeight + verticalMargin) + verticalMargin,
 							j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
