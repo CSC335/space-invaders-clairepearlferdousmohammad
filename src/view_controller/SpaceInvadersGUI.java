@@ -28,6 +28,7 @@ import model.AnimateStarter;
 import model.Bullet;
 import model.Game;
 import model.PlayerTank;
+import model.TankDestroy;
 
 /**
  * 
@@ -62,7 +63,8 @@ public class SpaceInvadersGUI extends Application {
 	private GraphicsContext gc;
 	private Canvas canvas;
 
-	private ArrayList<Bullet> bullets;
+	private ArrayList<Bullet> alienBullets;
+	private ArrayList<Bullet> tankBullets;
 
 	private Scene scene;
 
@@ -73,6 +75,9 @@ public class SpaceInvadersGUI extends Application {
 	private int diffi;
 	
 	private int indextime = 0;
+	
+	private AnimateStarter as;
+	private TankDestroy td;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -100,7 +105,8 @@ public class SpaceInvadersGUI extends Application {
 		tank = new PlayerTank(350, 450, 50, 40);
 		aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
 
-		bullets = new ArrayList<Bullet>();
+		tankBullets = new ArrayList<Bullet>();
+		alienBullets = new ArrayList<Bullet>();
 
 		menu = new MenuPane(this);
 		overPane = new GameOverPane(this);
@@ -207,7 +213,7 @@ public class SpaceInvadersGUI extends Application {
 	 * Clears the canvas, and draws all the current Objects of the game.
 	 *
 	 */
-	private AnimateStarter setupCanvas() {
+	private void setupCanvas() {
 
 		// basic canvas setup
 		gc.setStroke(Color.BLACK);
@@ -221,9 +227,10 @@ public class SpaceInvadersGUI extends Application {
 		// draw current objects
 		tank.draw(gc);
 		aliens.draw();
-		AnimateStarter as = null;
-		for (int i=0;i<bullets.size();i++) {
-			Bullet b = bullets.get(i);
+		as = null;
+		td = null;
+		for (int i=0;i<tankBullets.size();i++) {
+			Bullet b = tankBullets.get(i);
 			b.draw(gc);
 			// int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
 			as = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
@@ -232,11 +239,9 @@ public class SpaceInvadersGUI extends Application {
 				alienType = as.getAlienType();
 			}
 			
-			
-			
 			if (alienType!=0) {
 			// TODO: alien explosion animation
-				bullets.remove(b);
+				tankBullets.remove(b);
 
 				// increment score for hitting alien
 				if(alienType==1) {
@@ -254,11 +259,22 @@ public class SpaceInvadersGUI extends Application {
 			}
 			// remove bullets once off the screen
 			else if(b.getYPosition2() < 0) {
-				bullets.remove(b);
+				tankBullets.remove(b);
 			}		
 		}
-		return as;
-
+		
+		for (int i=0;i<alienBullets.size();i++) {
+			Bullet b = alienBullets.get(i);
+			b.draw(gc);
+			// int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
+			td = tank.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
+			// remove bullets once off the screen
+			if(b.getYPosition1() > 580) {
+				alienBullets.remove(b);
+			}		
+		}
+		
+		
 	}
 
 	/**
@@ -272,9 +288,9 @@ public class SpaceInvadersGUI extends Application {
 			if (event.getCode() == KeyCode.SPACE) {
 				// create a new bullet object with location starting from tank
 				// add the bullet to bullets array
-				if(!(bullets.contains(tank.getCurrentBullet()))) {
+				if(!(tankBullets.contains(tank.getCurrentBullet()))) {
 					soundM.playSound("Shooting");
-					bullets.add(tank.shoot());
+					tankBullets.add(tank.shoot());
 				}
 				setupCanvas();
 			// move tank left
@@ -342,18 +358,21 @@ public class SpaceInvadersGUI extends Application {
 				if ((indextime) % (11 - diffi) == 0) {
 					Bullet alienBullet = aliens.shootRandom();
 					if(alienBullet!=null) {
-						bullets.add(alienBullet);
+						alienBullets.add(alienBullet);
 					}
 				
 				}
 			}
 			
 			aliens.moveAliens(2 * diffi);
-			for (Bullet b : bullets) {
+			for (Bullet b : alienBullets) {
+				b.move(30);
+			}
+			for (Bullet b : tankBullets) {
 				b.move(30);
 			}
 			soundM.playBackgroundMusic();
-			AnimateStarter as = setupCanvas();
+			setupCanvas();
 			if (as != null) {
 				asList.add(as);
 			}
