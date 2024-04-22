@@ -267,7 +267,10 @@ public class SpaceInvadersGUI extends Application {
 			Bullet b = alienBullets.get(i);
 			b.draw(gc);
 			// int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
-			td = tank.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
+			td = tank.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition2());
+			if(td!=null) {
+				game.decrementLives();
+			}
 			// remove bullets once off the screen
 			if(b.getYPosition1() > 580) {
 				alienBullets.remove(b);

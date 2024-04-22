@@ -84,5 +84,8 @@ public class Game {
 	 */
 	public void decrementLives() {
 		numLives--;
+		if(numLives==0) {
+			gameOver = true;
+		}
 	}
 }
