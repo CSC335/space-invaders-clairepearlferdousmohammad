@@ -145,5 +145,24 @@ public class PlayerTank {
 		currentBullet = new Bullet(((this.x1Position + this.x2Position) / 2) - 1, this.y1Position-10, false);
 		return currentBullet;
 	}
+	
+	public TankDestroy doesHit(float x1, float x2, float y) {
+		/**
+		 * This method will check if the given x1, x2, and y are inside any of the
+		 * aliens in the collection. If so, it will return the int for the Alien type (1, 2, 3).
+		 * If not, it will return 0. 
+		 * 
+		 * @param x1	the x coordinate of the left side of the bullet
+		 * @param x2	the x coordinate of the right side of the bullet
+		 * @param y		the y coordinate of the top of the bullet
+		 */
+		// iterate backwards so the lower aliens are hit first
+		if (getX1() < x2 && getX2() > x1 && getY1() < y && getY2()+15 > y) {
+			float height = getY2() - getY1();
+			TankDestroy as = new TankDestroy(getX1(), getX2(), getY1(), height);
+			return as;
+		}
+		return null;
+	}
 
 }
