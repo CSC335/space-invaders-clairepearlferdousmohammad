@@ -147,7 +147,7 @@ public class PlayerTank {
 		currentBullet = new Bullet(((this.x1Position + this.x2Position) / 2) - 1, this.y1Position-10, false);
 		return currentBullet;
 	}
-	
+		
 	public TankDestroy doesHit(float x1, float x2, float y) {
 		/**
 		 * Will determine if a tank is being hit, will return animator for destroying the tank
@@ -157,11 +157,14 @@ public class PlayerTank {
 		 * @param y		the y coordinate of the bottom of the bullet
 		 */
 		// iterate backwards so the lower aliens are hit first
-		if (getX1() < x2 && getX2() > x1 && getY1() < y && this.height > y) {
+		// System.out.println("tank got hit was called");
+		if (getX1() < x1 && getX2() > x2 && getY1() < y) {
 			float height = getY2() - getY1();
 			TankDestroy as = new TankDestroy(getX1(), getX2(), getY1(), height);
+			System.out.println("player tank got hit");
 			return as;
 		}
+		
 		return null;
 	}
 

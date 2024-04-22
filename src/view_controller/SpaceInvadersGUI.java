@@ -270,6 +270,8 @@ public class SpaceInvadersGUI extends Application {
 			td = tank.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition2());
 			if(td!=null) {
 				game.decrementLives();
+				System.out.println("tank got hit!");
+				alienBullets.remove(b);
 			}
 			// remove bullets once off the screen
 			if(b.getYPosition1() > 580) {
@@ -348,7 +350,8 @@ public class SpaceInvadersGUI extends Application {
 		soundM.playSound("GameStart");
 		// create an arraylist of AnimateStarter
 		ArrayList<AnimateStarter> asList = new ArrayList<AnimateStarter>();
-		
+		ArrayList<TankDestroy> tdList = new ArrayList<TankDestroy>();
+
 		timeline = new Timeline(new KeyFrame(Duration.millis(80), event -> {
 			this.indextime ++;
 			if (game.getGameOver()) {
@@ -379,9 +382,15 @@ public class SpaceInvadersGUI extends Application {
 			if (as != null) {
 				asList.add(as);
 			}
+			if(td!=null) {
+				tdList.add(td);
+			}
 			// call handle for all as in asList
 			for (AnimateStarter a : asList) {
 				a.handle(gc);
+			}
+			for (TankDestroy t : tdList) {
+				t.handle(gc);
 			}
 			
 		}));
