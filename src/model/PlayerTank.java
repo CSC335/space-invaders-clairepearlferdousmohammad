@@ -154,7 +154,7 @@ public class PlayerTank {
 		 * 
 		 * @param x1	the x coordinate of the left side of the bullet
 		 * @param x2	the x coordinate of the right side of the bullet
-		 * @param y		the y coordinate of the top of the bullet
+		 * @param y		the y coordinate of the bottom of the bullet
 		 */
 		// iterate backwards so the lower aliens are hit first
 		if (getX1() < x2 && getX2() > x1 && getY1() < y && getY2()+15 > y) {
