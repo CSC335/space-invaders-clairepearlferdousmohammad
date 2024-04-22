@@ -17,13 +17,13 @@ public class AnimateStarter {
 		this.x2 = x2;
 		this.y = y;
 		this.height = height;
-		sx = 36;
+		sx = 36 + 400;
 		sy = 62;
 		sw = 200;
 		sh = 200;
 		dx = this.x1;
 		dy = this.y;
-		dw = this.x2-this.x1;
+		dw = (this.x2-this.x1)*1;
 		dh = this.height;
 		this.AlienType = AlienType;
 		System.out.println("Start animation");
@@ -34,7 +34,7 @@ public class AnimateStarter {
 	}
 
 	public void handle(GraphicsContext gc) {
-		if (tic >= 6) {
+		if (tic >= 3) {
 			sx = 0;
 			return;
 		}
@@ -42,6 +42,7 @@ public class AnimateStarter {
 		tic++;
 		gc.drawImage(picture, sx, sy, sw, sh, dx, dy, dw, dh);
 		sx += 200;
+		
 		System.out.println("Tic: " + tic);	
 	}
 }

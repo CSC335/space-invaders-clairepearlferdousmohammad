@@ -193,7 +193,7 @@ public class SpaceInvadersGUI extends Application {
 	 * Clears the canvas, and draws all the current Objects of the game.
 	 *
 	 */
-	private void setupCanvas() {
+	private AnimateStarter setupCanvas() {
 
 		// basic canvas setup
 		gc.setStroke(Color.BLACK);
@@ -207,11 +207,12 @@ public class SpaceInvadersGUI extends Application {
 		// draw current objects
 		tank.draw(gc);
 		aliens.draw();
+		AnimateStarter as = null;
 		for (int i=0;i<bullets.size();i++) {
 			Bullet b = bullets.get(i);
 			b.draw(gc);
 			// int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
-			AnimateStarter as = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
+			as = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
 			int alienType = as.getAlienType();
 			
 			
@@ -238,6 +239,7 @@ public class SpaceInvadersGUI extends Application {
 				bullets.remove(b);
 			}		
 		}
+		return as;
 
 	}
 
@@ -296,6 +298,8 @@ public class SpaceInvadersGUI extends Application {
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
 		soundM.playSound("GameStart");
+		// create an arraylist of AnimateStarter
+		ArrayList<AnimateStarter> asList = new ArrayList<AnimateStarter>();
 		timeline = new Timeline(new KeyFrame(Duration.millis(80), event -> {
 			if (game.getGameOver()) {
 				endGame();
@@ -306,7 +310,14 @@ public class SpaceInvadersGUI extends Application {
 				b.move(30);
 			}
 			soundM.playBackgroundMusic();
-			setupCanvas();
+			AnimateStarter as = setupCanvas();
+			if (as != null) {
+				asList.add(as);
+			}
+			// call handle for all as in asList
+			for (AnimateStarter a : asList) {
+				a.handle(gc);
+			}
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();

@@ -235,7 +235,7 @@ public class AlienCollection {
 				// timeline.play();  // Start the timeline
 
 				// timeline = new Timeline(new KeyFrame(Duration.millis(90), new AnimateStarter(x1, x2, y, this.alienHeight, this.gameGC, this.timeline)));
-				AnimateStarter as = new AnimateStarter(x1, x2, y, this.alienHeight, alien.getTypeNum());
+				AnimateStarter as = new AnimateStarter(alien.getX1(), alien.getX2(), alien.getY1(), this.alienHeight, alien.getTypeNum());
 
 				
 				// return alien.getTypeNum();
