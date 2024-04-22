@@ -227,10 +227,14 @@ public class SpaceInvadersGUI extends Application {
 			b.draw(gc);
 			// int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
 			as = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
-			int alienType = as.getAlienType();
+			int alienType = 0;
+			if (as != null) {
+				alienType = as.getAlienType();
+			}
 			
 			
-			if (alienType!=null && alienType!=0) {
+			
+			if (alienType!=0) {
 			// TODO: alien explosion animation
 				bullets.remove(b);
 
