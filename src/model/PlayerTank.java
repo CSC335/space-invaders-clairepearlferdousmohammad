@@ -20,6 +20,7 @@ public class PlayerTank {
 	private float y1Position;
 	private float y2Position;
 	private Image image;
+	private float height;
 
 	private Bullet currentBullet;
 	
@@ -29,6 +30,7 @@ public class PlayerTank {
 		this.y1Position = y1Pos;
 		this.x2Position = x1Pos + width;
 		this.y2Position = y1Pos + height;
+		this.height = height;
 		this.image = new Image(getClass().getResourceAsStream("tank.png"));
 		this.currentBullet = null;
 	}
@@ -155,7 +157,7 @@ public class PlayerTank {
 		 * @param y		the y coordinate of the bottom of the bullet
 		 */
 		// iterate backwards so the lower aliens are hit first
-		if (getX1() < x2 && getX2() > x1 && getY1() < y && getY2()+15 > y) {
+		if (getX1() < x2 && getX2() > x1 && getY1() < y && this.height > y) {
 			float height = getY2() - getY1();
 			TankDestroy as = new TankDestroy(getX1(), getX2(), getY1(), height);
 			return as;
