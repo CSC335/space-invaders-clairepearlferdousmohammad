@@ -69,6 +69,10 @@ public class SpaceInvadersGUI extends Application {
 	private ArrayList<Integer> scores;
 	private String fileName = "scores.ser";
 	private SoundManager soundM;
+	
+	private int diffi;
+	
+	private int indextime = 0;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -287,25 +291,46 @@ public class SpaceInvadersGUI extends Application {
 		});
 
 	}
+	
+	/**
+	 * Respawns the alien collection, with increased diffiiculty. 
+	 * 
+	 */
+	private void noMoreAliens() {
+		if(aliens.isEmpty()) {
+			aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
+			diffi += 1;
+		}
+	}
 
 	/**
 	 * Starts a game of Space invaders.
 	 *
-	 * @param diff the selected difficulty (1 for easy, 2 for medium, 3 for hard)
+	 * @param diffi the selected diffiiculty (1 for easy, 2 for medium, 3 for hard)
 	 */
-	public void startGame(int diff) {
+	public void startGame() {
 		all.setTop(headPane);
 		all.setCenter(canvas);
 		aliens.fillWithAliens(5);
 		soundM.playSound("GameStart");
 		// create an arraylist of AnimateStarter
 		ArrayList<AnimateStarter> asList = new ArrayList<AnimateStarter>();
+		
 		timeline = new Timeline(new KeyFrame(Duration.millis(80), event -> {
+			this.indextime ++;
 			if (game.getGameOver()) {
 				endGame();
 				return;
 			}
-			aliens.moveAliens(2);
+			noMoreAliens();
+			
+			if(indextime%7==0) {
+				if ((indextime) % (11 - diffi) == 0) {
+					aliens.shootRandom();
+				}
+			}
+			
+			aliens.moveAliens(2 * diffi);
 			for (Bullet b : bullets) {
 				b.move(30);
 			}
@@ -318,6 +343,7 @@ public class SpaceInvadersGUI extends Application {
 			for (AnimateStarter a : asList) {
 				a.handle(gc);
 			}
+			
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
@@ -341,6 +367,8 @@ public class SpaceInvadersGUI extends Application {
 		saveScore();
 
 	}
+	
+	
 	
 	/**
 	 * Saves the score, if one of the top 3. 
