@@ -24,6 +24,7 @@ import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import model.AlienCollection;
+import model.AnimateStarter;
 import model.Bullet;
 import model.Game;
 import model.PlayerTank;
@@ -209,8 +210,12 @@ public class SpaceInvadersGUI extends Application {
 		for (int i=0;i<bullets.size();i++) {
 			Bullet b = bullets.get(i);
 			b.draw(gc);
-			int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
-			if(alienType!=0) {
+			// int alienType = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
+			AnimateStarter as = aliens.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition1()); 
+			int alienType = as.getAlienType();
+			
+			
+			if (alienType!=0) {
 			// TODO: alien explosion animation
 				bullets.remove(b);
 

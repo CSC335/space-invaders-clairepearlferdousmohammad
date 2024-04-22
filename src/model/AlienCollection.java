@@ -208,7 +208,7 @@ public class AlienCollection {
 	 * @param y  the y-coordinate
 	 * @return true if the coordinates are inside an alien, false otherwise
 	 */
-	public int doesHit(float x1, float x2, float y) {
+	public AnimateStarter doesHit(float x1, float x2, float y) {
 		/**
 		 * This method will check if the given x1, x2, and y are inside any of the
 		 * aliens in the collection. If so, it will return the int for the Alien type (1, 2, 3).
@@ -224,12 +224,25 @@ public class AlienCollection {
 			if (alien.getX1() < x2 && alien.getX2() > x1 && alien.getY1() < y && alien.getY2()+15 > y) {
 				aliens.remove(alien);
 				// this is for animation of the destruction
-				timeline = new Timeline(new KeyFrame(Duration.millis(90), new AnimateStarter(x1, x2, y, this.alienHeight, this.gameGC, this.timeline)));
+				// create a fake event; just to start the animation
+
+				// Initialize the timeline here and add a cycle count if needed
+				// timeline = new Timeline();
+				// timeline.setCycleCount(1);  // If needed, adjust according to the number of cycles for animation
+
+				// KeyFrame frame = new KeyFrame(Duration.millis(5000), new AnimateStarter(x1, x2, y, this.alienHeight, this.gameGC, timeline));
+				// timeline.getKeyFrames().add(frame);
+				// timeline.play();  // Start the timeline
+
+				// timeline = new Timeline(new KeyFrame(Duration.millis(90), new AnimateStarter(x1, x2, y, this.alienHeight, this.gameGC, this.timeline)));
+				AnimateStarter as = new AnimateStarter(x1, x2, y, this.alienHeight, alien.getTypeNum());
+
 				
-				return alien.getTypeNum();
+				// return alien.getTypeNum();
+				return as;
 			}
 		}
-		return 0;
+		return null;
 	}
 
 	/**
@@ -274,47 +287,5 @@ public class AlienCollection {
 		for (Alien alien : aliens) {
 			alien.draw(gameGC, alienWidth, alienHeight);
 		}
-	}
-	
-	private class AnimateStarter implements EventHandler<ActionEvent> {
-		private int tic = 0;
-		private float x1;
-		private float x2;
-		private float y;
-		private float height;
-		private double sx, sy, sw, sh, dx, dy, dw, dh;
-		private Timeline timeline;
-		private GraphicsContext gc;
-		
-		public AnimateStarter(float x1, float x2, float y, float height, GraphicsContext gc, Timeline timeline) {
-			this.x1 = x1;
-			this.x2 = x2;
-			this.y = y;
-			this.height = height;
-			this.gc = gc;
-			this.timeline = timeline;
-			sx = 36;
-			sy = 62;
-			sw = 200;
-			sh = 200;
-			dx = this.x1;
-			dy = this.y;
-			dw = this.x2-this.x1;
-			dh = this.height;
-		}
-		@Override
-		public void handle(ActionEvent arg0) {
-			tic++;
-			Image picture = new Image(getClass().getResourceAsStream("alienExplode.png"));
-			gc.drawImage(picture, sx, sy, sw, sh, dx, dy, dw, dh);
-			sx += 200;
-			if (tic >= 6) {
-			timeline.stop();
-			sx = 0;
-			}
-			
-		}
-		
-	}
-
+	}	
 }
