@@ -273,23 +273,35 @@ public class SpaceInvadersGUI extends Application {
 			td = tank.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition2());
 			if(td!=null) {
 				game.decrementLives();
-				nextLife.setVisible(false);
-				if(nextLife==life3) {
-					nextLife=life2;
-				}
-				else {
-					nextLife=life1;
-				}
-				alienBullets.remove(b);
+					hitTank(b);
 			}
 			// remove bullets once off the screen
-			if(b.getYPosition1() > 580) {
+			else if(b.getYPosition1() > 580) {
 				alienBullets.remove(b);
 			}		
 		}
 		
 		
 	}
+	
+	/**
+	 * Behavior for when the tank is hit with an alien bullet. 	 
+	 * 
+	 * @param b the Bullet that hit the tank
+	 * 
+	 */
+	private void hitTank(Bullet b) {
+		nextLife.setVisible(false);
+		if(nextLife==life3) {
+			nextLife=life2;
+		}
+		else {
+			nextLife=life1;
+		}
+		alienBullets.remove(b);
+		tank.respawn();
+	}
+	
 
 	/**
 	 * Sets the handlers for user interaction with the GUI.
@@ -380,6 +392,11 @@ public class SpaceInvadersGUI extends Application {
 			}
 			
 			aliens.moveAliens(1 + diffi/2);
+
+			if(hitBottom()) {
+				endGame();
+			}
+			
 			for (Bullet b : alienBullets) {
 				b.move(30);
 			}
@@ -406,6 +423,15 @@ public class SpaceInvadersGUI extends Application {
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
 
+	}
+	
+	/**
+	 * Determines whether the aliens hit the bottom of the screen.
+	 *
+	 */
+	public boolean hitBottom() {
+		return (aliens.getLowestY() >= 500);
+	
 	}
 
 	/**

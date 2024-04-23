@@ -307,4 +307,14 @@ public class AlienCollection {
 		Alien alien = type3Aliens.get(randomIndex);
 		return alien.shoot();
 	}
+	
+	public float getLowestY() {
+		float maxY = 0;
+		for (Alien alien : aliens) {
+			if(alien.getY2()>maxY){
+				maxY = alien.getY2();
+			}
+		}
+		return maxY;
+	}
 }

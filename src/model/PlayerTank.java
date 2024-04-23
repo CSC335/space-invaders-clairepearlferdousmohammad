@@ -22,9 +22,12 @@ public class PlayerTank {
 	private Image image;
 	private float height;
 
+	private int respawningCounter;
+	
 	private Bullet currentBullet;
 	
 	public PlayerTank(float x1Pos, float y1Pos, float width, float height) {
+		this.respawningCounter = 0;
 		this.damages = 0;
 		this.x1Position = x1Pos;
 		this.y1Position = y1Pos;
@@ -109,13 +112,38 @@ public class PlayerTank {
 	public int getDamages() {
 		return damages;
 	}
-
+	
+	/**
+	 * Respawns a new Tank by making it flash for a few seconds. 
+	 * 
+	 * @return this		The current tank object
+	 **/
+	public void respawn() {
+		this.respawningCounter = 20;
+	}
+	
+	
+	/**
+	 * Determines whether the tank is respawning. 
+	 * 
+	 * @return 	true or false
+	 **/
+	private boolean isRespawning() {	
+		return respawningCounter>0;
+	}
+	
 	/**
 	 * Gets the image to put on the canvas to represent the tank
 	 * 
 	 * @return image 	The image that should be shown to represent the tank
 	 */
 	public Image getImage() {
+		respawningCounter--;
+
+		if(isRespawning() && respawningCounter %  4 < 2) {
+			return null;
+		}
+
 		return image;
 	}
 
@@ -135,6 +163,9 @@ public class PlayerTank {
 	 * @param gc GraphicsContext gc that is used in the GUI
 	 */
 	public void draw(GraphicsContext gc) {
+		if(getImage()==null) {
+			return;
+		}
 		gc.drawImage(this.image, this.x1Position, this.y1Position, this.x2Position - this.x1Position, this.y2Position - this.y1Position);
 	}
 	
