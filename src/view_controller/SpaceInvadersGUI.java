@@ -56,9 +56,8 @@ public class SpaceInvadersGUI extends Application {
 	private Label score;
 	private Label livesLabel;
 
-	private ImageView life1;
-	private ImageView life2;
-	private ImageView life3;
+	private ImageView life1, life2, life3;
+	private ImageView nextLife;
 
 	private GraphicsContext gc;
 	private Canvas canvas;
@@ -115,6 +114,8 @@ public class SpaceInvadersGUI extends Application {
 		layoutPane();
 		stylePane();
 		setupCanvas();
+		
+		nextLife = life3;
 
 		stage.setTitle("SPACE INVADERS");
 		scene = new Scene(all, 800, 600);
@@ -160,6 +161,7 @@ public class SpaceInvadersGUI extends Application {
 		this.diffi = diffi;
 	}
 	
+	
 	/**
 	 * Sets up the head pane for the GUI.
 	 * 
@@ -186,6 +188,7 @@ public class SpaceInvadersGUI extends Application {
 		life3 = new ImageView(tank.getImage());
 		life3.setFitWidth(40);
 		life3.setPreserveRatio(true);
+		
 		headPane.add(life1, 260, 10, 5, 1);
 		headPane.add(life2, 280, 10, 5, 1);
 		headPane.add(life3, 300, 10, 5, 1);
@@ -270,7 +273,13 @@ public class SpaceInvadersGUI extends Application {
 			td = tank.doesHit(b.getXPosition1(), b.getXPosition2(), b.getYPosition2());
 			if(td!=null) {
 				game.decrementLives();
-				System.out.println("tank got hit!");
+				nextLife.setVisible(false);
+				if(nextLife==life3) {
+					nextLife=life2;
+				}
+				else {
+					nextLife=life1;
+				}
 				alienBullets.remove(b);
 			}
 			// remove bullets once off the screen
@@ -361,7 +370,7 @@ public class SpaceInvadersGUI extends Application {
 			noMoreAliens();
 			
 			if(indextime%7==0) {
-				if ((indextime) % (11 - diffi) == 0) {
+				if ((indextime) % (7 - diffi) == 0) {
 					Bullet alienBullet = aliens.shootRandom();
 					if(alienBullet!=null) {
 						alienBullets.add(alienBullet);
@@ -370,7 +379,7 @@ public class SpaceInvadersGUI extends Application {
 				}
 			}
 			
-			aliens.moveAliens(2 * diffi);
+			aliens.moveAliens(1 + diffi/2);
 			for (Bullet b : alienBullets) {
 				b.move(30);
 			}
