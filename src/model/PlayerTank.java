@@ -118,8 +118,8 @@ public class PlayerTank {
 	 * 
 	 * @return this		The current tank object
 	 **/
-	public void respawn() {
-		this.respawningCounter = 20;
+	public void respawn(int counter) {
+		this.respawningCounter = counter;
 	}
 	
 	
@@ -128,7 +128,7 @@ public class PlayerTank {
 	 * 
 	 * @return 	true or false
 	 **/
-	private boolean isRespawning() {	
+	public boolean isRespawning() {	
 		return respawningCounter>0;
 	}
 	

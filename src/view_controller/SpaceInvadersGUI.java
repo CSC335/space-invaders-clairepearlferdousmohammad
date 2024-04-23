@@ -77,6 +77,8 @@ public class SpaceInvadersGUI extends Application {
 	
 	private AnimateStarter as;
 	private TankDestroy td;
+	
+	private PlayerTank extraLife;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -230,6 +232,32 @@ public class SpaceInvadersGUI extends Application {
 		// draw current objects
 		tank.draw(gc);
 		aliens.draw();
+		if(extraLife!=null) {
+			if(!(extraLife.isRespawning())) {
+				extraLife = null;
+			}
+			else {
+				extraLife.draw(gc);
+				// if tank is to the right
+				if(tank.getX1() > extraLife.getX1()) {
+					if(tank.getX1()<extraLife.getX2()) {
+						extraLife = null;
+						game.incrementLives();
+						
+						// update life display
+						if(nextLife==life2) {
+							life3.setVisible(true);
+							nextLife = life3;  
+						}
+						else if(nextLife==life1) {
+							life2.setVisible(true);
+							nextLife = life2;
+						}
+						
+					}
+				}
+			}
+		}
 		as = null;
 		td = null;
 		for (int i=0;i<tankBullets.size();i++) {
@@ -243,7 +271,6 @@ public class SpaceInvadersGUI extends Application {
 			}
 			
 			if (alienType!=0) {
-			// TODO: alien explosion animation
 				tankBullets.remove(b);
 
 				// increment score for hitting alien
@@ -299,7 +326,7 @@ public class SpaceInvadersGUI extends Application {
 			nextLife=life1;
 		}
 		alienBullets.remove(b);
-		tank.respawn();
+		tank.respawn(20);
 	}
 	
 
@@ -391,6 +418,11 @@ public class SpaceInvadersGUI extends Application {
 				}
 			}
 			
+			// spawn lives
+			if(indextime % 250 == 49 && game.getNumLives()<3) {
+				spawnLife();
+			}
+			
 			aliens.moveAliens(1 + diffi/2);
 
 			if(hitBottom()) {
@@ -423,6 +455,12 @@ public class SpaceInvadersGUI extends Application {
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
 
+	}
+	
+	
+	private void spawnLife() {
+		extraLife = new PlayerTank((float) (Math.random()*530), tank.getY1() + 30, (tank.getX2()-tank.getX1())/2, (tank.getY2()-tank.getY1())/2);
+		extraLife.respawn(50);
 	}
 	
 	/**

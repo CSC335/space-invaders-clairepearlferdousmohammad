@@ -88,4 +88,16 @@ public class Game {
 			gameOver = true;
 		}
 	}
+	
+	/**
+	 * Decrements the current number of lives by 1. 
+	 *  
+	 */
+	public void incrementLives() {
+		if(numLives<3) {
+			numLives++;
+
+		}
+
+	}
 }
