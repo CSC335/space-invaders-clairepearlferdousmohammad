@@ -90,6 +90,9 @@ public class PlayerTank {
 	 * @param d The distance to move the tank left
 	 */
 	public void moveLeft(double d) {
+		if (this.x1Position - d < 0) {
+			return;
+		}
 		this.x1Position -= d;
 		this.x2Position -= d;
 	}
@@ -100,6 +103,9 @@ public class PlayerTank {
 	 * @param d The distance to move the tank right
 	 */
 	public void moveRight(double d) {
+		if (this.x2Position + d > 800) {
+			return;
+		}
 		this.x1Position += d;
 		this.x2Position += d;
 	}

@@ -381,7 +381,8 @@ public class SpaceInvadersGUI extends Application {
 	 */
 	private void noMoreAliens() {
 		if(aliens.isEmpty()) {
-			aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
+			// aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
+			aliens.fillWithAliens(5);
 			diffi += 1;
 		}
 	}
