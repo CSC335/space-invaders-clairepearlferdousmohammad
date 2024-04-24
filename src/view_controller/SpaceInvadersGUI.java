@@ -150,7 +150,7 @@ public class SpaceInvadersGUI extends Application {
 			System.out.println("Class not found");
 			return;
 		}
-
+ 
 	}
 
 	
