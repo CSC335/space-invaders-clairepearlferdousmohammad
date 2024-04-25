@@ -68,7 +68,12 @@ public class SpaceInvadersGUI extends Application {
 	private Scene scene;
 
 	private ArrayList<Integer> scores;
-	private String fileName = "scores.ser";
+	private ArrayList<String> names;
+		
+	private String scoreFileName = "scores.ser";
+	private String nameFileName = "names.ser";
+
+	
 	private SoundManager soundM;
 	
 	private int diffi;
@@ -94,6 +99,7 @@ public class SpaceInvadersGUI extends Application {
 	public void start(Stage stage) throws Exception {
 
 		readScores();
+		readNames();
 
 		all = new BorderPane();
 		headPane = new GridPane();
@@ -113,6 +119,8 @@ public class SpaceInvadersGUI extends Application {
 		overPane = new GameOverPane(this);
 		all.setCenter(menu);
 
+		//all.setCenter(overPane);
+		
 		layoutPane();
 		stylePane();
 		setupCanvas();
@@ -136,14 +144,16 @@ public class SpaceInvadersGUI extends Application {
 	 */
 	@SuppressWarnings("unchecked")
 	private void readScores() throws Exception {
+		System.out.println("reading scores...");
 
 		try {
-			FileInputStream rawBytes = new FileInputStream(fileName);
+			FileInputStream rawBytes = new FileInputStream(scoreFileName);
 			ObjectInputStream inFile = new ObjectInputStream(rawBytes);
-
 			scores = (ArrayList<Integer>) inFile.readObject();
 			inFile.close();
 		} catch (IOException io) {
+			System.out.println("no score file found.");
+
 			scores = new ArrayList<Integer>();
 			return;
 		} catch (ClassNotFoundException c) {
@@ -152,6 +162,26 @@ public class SpaceInvadersGUI extends Application {
 		}
  
 	}
+	
+	@SuppressWarnings({ "unchecked" })
+	private void readNames() throws Exception {
+		System.out.println("reading names...");
+
+		try {
+			FileInputStream rawBytes = new FileInputStream(nameFileName);
+			ObjectInputStream inFile = new ObjectInputStream(rawBytes);
+			names = (ArrayList<String>) inFile.readObject();
+			inFile.close();
+		} catch (IOException io) {
+			names = new ArrayList<String>(scores.size());
+			return;
+		} catch (ClassNotFoundException c) {
+			System.out.println("Class not found");
+			return;
+		}
+ 
+	}
+
 
 	
 	/**
@@ -359,6 +389,7 @@ public class SpaceInvadersGUI extends Application {
 		
 		// save score when closing
 		stage.setOnCloseRequest(event -> {
+			// TODO: add a popup to enter name
 			saveScore();
 		});
 
@@ -486,9 +517,6 @@ public class SpaceInvadersGUI extends Application {
 		soundM.stopBackgroundMusic();
 		soundM.playSound("Death");
 
-		// save score
-		saveScore();
-
 	}
 	
 	
@@ -497,51 +525,80 @@ public class SpaceInvadersGUI extends Application {
 	 * Saves the score, if one of the top 3. 
 	 * 
 	 */
-	private void saveScore() {
+	public void saveScore() {
 		if (scores.size() == 0) {
 			scores.add(0, game.getScore());
+			names.add(0, overPane.getName());
 		}
 		else if (scores.size() == 1 || game.getScore() > scores.get(1)) {
 			if (game.getScore() > scores.get(0)) {
 				scores.add(0, game.getScore());
+				names.add(0, overPane.getName());
+
 			}
 			else {
 				scores.add(1, game.getScore());
+				names.add(1, overPane.getName());
+
 
 			}
 		}
 		else if (scores.size() == 2 || game.getScore() > scores.get(2)) {
 			if (game.getScore() > scores.get(0)) {
 				scores.add(0, game.getScore());
+				names.add(0, overPane.getName());
+
 			}
 			else if (game.getScore() > scores.get(1)) {
 				scores.add(1, game.getScore());
+				names.add(1, overPane.getName());
+
 			}
 			else {
 				scores.add(2, game.getScore());
+				names.add(2, overPane.getName());
+
 			}
 		}
 		
 		while(scores.size()>3) {
 			scores.remove(scores.size()-1);
+			names.remove(scores.size()-1);
 			
 		}
 		
 
 		try {
-			FileOutputStream bytesToDisk = new FileOutputStream(fileName);
+			FileOutputStream bytesToDisk = new FileOutputStream(scoreFileName);
 			ObjectOutputStream outFile = new ObjectOutputStream(bytesToDisk);
-
 			outFile.writeObject(scores);
 			outFile.close();
 		} catch (IOException io) {
 			System.out.println("Writing scores failed\n" + io);
+		}
+		
+
+		try {
+			FileOutputStream bytesToDisk = new FileOutputStream(nameFileName);
+			ObjectOutputStream outFile = new ObjectOutputStream(bytesToDisk);
+			outFile.writeObject(names);
+			outFile.close();
+		} catch (IOException io) {
+			System.out.println("Writing names failed\n" + io);
 		}
 
 	}
 
 	public ArrayList<Integer> getScores() {
 		return scores;
+	}
+	
+	public ArrayList<String> getNames(){
+		return names;
+	}
+	
+	public int getCurrentScore() {
+		return game.getScore();
 	}
 
 }

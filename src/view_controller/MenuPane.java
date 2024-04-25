@@ -27,6 +27,7 @@ public class MenuPane extends GridPane {
 
 	private Label titleLabel, howLabel, howToLabel, diffLabel, scoreboardLabel;
 	private Label score1Label, score2Label, score3Label;
+	private Label name1Label, name2Label, name3Label;
 	private ObservableList<RadioButton> radios;
 	private ToggleGroup tg;
 	private RadioButton easyButton, medButton, hardButton;
@@ -36,7 +37,7 @@ public class MenuPane extends GridPane {
 
 	public MenuPane(SpaceInvadersGUI gui) {
 		createNodes();
-		setScores(gui.getScores());
+		setScores(gui.getScores(), gui.getNames());
 		styleMenu();
 		layoutMenu();
 		setHandler(gui);
@@ -69,6 +70,10 @@ public class MenuPane extends GridPane {
 		score2Label = new Label("--");
 		score3Label = new Label("--");
 
+		name1Label = new Label("NO NAME");
+		name2Label = new Label("NO NAME");
+		name3Label = new Label("NO NAME");
+		
 		startButton = new Button("START");
 
 	}
@@ -77,15 +82,33 @@ public class MenuPane extends GridPane {
 	 * Sets up the GUI for the menu that displays before a game starts.
 	 * 
 	 */
-	private void setScores(ArrayList<Integer> scores) {
+	private void setScores(ArrayList<Integer> scores, ArrayList<String> names) {
 		if(scores.size()>=1) {
 			score1Label.setText(""+scores.get(0));
+			try {
+				name1Label.setText(""+names.get(0));
+			} catch (Exception e) {
+				name1Label.setText("NO NAME");
+			}
+
 		}
 		if(scores.size()>=2) {
 			score2Label.setText(""+scores.get(1));
+			try {
+				name2Label.setText(""+names.get(1));
+			} catch (Exception e) {
+				name2Label.setText("NO NAME");
+			}
+
 		}
 		if(scores.size()>=3) {
 			score3Label.setText(""+scores.get(2));
+			try {
+				name3Label.setText(""+names.get(2));
+			} catch (Exception e) {
+				name3Label.setText("NO NAME");
+			}
+
 		}
 
 	}
@@ -112,6 +135,10 @@ public class MenuPane extends GridPane {
 		this.add(score1Label, 25, 75, 5, 1);
 		this.add(score2Label, 25, 80, 5, 1);
 		this.add(score3Label, 25, 85, 5, 1);
+		
+		this.add(name1Label, 35, 75, 10, 1);
+		this.add(name2Label, 35, 80, 10, 1);
+		this.add(name3Label, 35, 85, 10, 1);
 
 		this.add(startButton, 21, 180, 20, 10);
 
@@ -139,6 +166,9 @@ public class MenuPane extends GridPane {
 		score1Label.setFont(infoFont);
 		score2Label.setFont(infoFont);
 		score3Label.setFont(infoFont);
+		name1Label.setFont(infoFont);
+		name2Label.setFont(infoFont);
+		name3Label.setFont(infoFont);
 
 		titleLabel.setStyle("-fx-text-fill: Chartreuse;");
 		howLabel.setStyle("-fx-text-fill: White;");
@@ -152,6 +182,10 @@ public class MenuPane extends GridPane {
 		score1Label.setStyle("-fx-text-fill: White;");
 		score2Label.setStyle("-fx-text-fill: White;");
 		score3Label.setStyle("-fx-text-fill: White;");
+		name1Label.setStyle("-fx-text-fill: White;");
+		name2Label.setStyle("-fx-text-fill: White;");
+		name3Label.setStyle("-fx-text-fill: White;");
+
 
 		startButton.setFont(headingFont);
 		startButton.setStyle("-fx-background-color: Chartreuse;" + "-fx-text-fill: Black;");

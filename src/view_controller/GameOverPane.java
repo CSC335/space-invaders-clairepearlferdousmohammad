@@ -2,6 +2,7 @@ package view_controller;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -19,14 +20,20 @@ import javafx.stage.Stage;
 public class GameOverPane extends GridPane {
 
 
-	private Label gameOverLabel; 
-	private Button playAgainButton;
+	private Label gameOverLabel, nameLabel, scoreLabel;
+	private Button playAgainButton, saveButton;
+	private TextField nameField;
+	
+	private String name;
+	private int score;
 
 	public GameOverPane(SpaceInvadersGUI gui) {
+		this.score = gui.getCurrentScore();
 		createNodes();
 		styleMenu();
 		layoutMenu();
 		setHandler(gui);
+	
 	}
 
 	/** 
@@ -36,6 +43,10 @@ public class GameOverPane extends GridPane {
 	private void createNodes() {
 		gameOverLabel = new Label("GAME\nOVER");
 		playAgainButton = new Button("PLAY AGAIN?");
+		nameLabel = new Label("Enter your name to save your score: ");
+		nameField = new TextField();
+		saveButton = new Button("Save score");
+		scoreLabel = new Label(""+ score);
 
 	}
 
@@ -76,6 +87,10 @@ public class GameOverPane extends GridPane {
 		playAgainButton.setPrefHeight(100);
 
 	}
+	
+	public String getName() {
+		return this.name;
+	}
 
 	/**
 	 * Sets handler for when the user clicks play again.
@@ -92,5 +107,13 @@ public class GameOverPane extends GridPane {
 				e.printStackTrace();
 			}
 		});
+		
+		saveButton.setOnAction(event -> {
+			this.name = nameField.getText();
+			gui.saveScore();
+			
+		});
+		
+		
 	}
 }
