@@ -24,16 +24,30 @@ public class GameOverPane extends GridPane {
 	private Button playAgainButton, saveButton;
 	private TextField nameField;
 	
+	private SpaceInvadersGUI gui;
+	
 	private String name;
-	private int score;
-
+	
 	public GameOverPane(SpaceInvadersGUI gui) {
-		this.score = gui.getCurrentScore();
+
+		this.gui = gui;
 		createNodes();
 		styleMenu();
 		layoutMenu();
 		setHandler(gui);
 	
+	}
+	
+	private boolean highScore() {
+		int score = gui.getCurrentScore();
+		System.out.println("current score is " + score);
+		try {
+			System.out.println("cutoff is " + gui.getScores().get(2));
+
+			return score > gui.getScores().get(2);
+		} catch (Exception e) {
+			return true;
+		}
 	}
 
 	/** 
@@ -41,12 +55,12 @@ public class GameOverPane extends GridPane {
 	 * 
 	 */
 	private void createNodes() {
-		gameOverLabel = new Label("GAME\nOVER");
+		gameOverLabel = new Label("GAME OVER");
 		playAgainButton = new Button("PLAY AGAIN?");
-		nameLabel = new Label("Enter your name to save your score: ");
+		nameLabel = new Label("Enter your name to \n save your score: ");
 		nameField = new TextField();
 		saveButton = new Button("Save score");
-		scoreLabel = new Label(""+ score);
+		scoreLabel = new Label(""+ gui.getCurrentScore());
 
 	}
 
@@ -57,9 +71,19 @@ public class GameOverPane extends GridPane {
 	private void layoutMenu() {
 
 		this.setHgap(1);
+		this.setVgap(0.5);
 
-		this.add(gameOverLabel, 220, 100, 600, 100);
-		this.add(playAgainButton, 250, 300, 300, 100);
+		this.add(gameOverLabel, 100, 100, 800, 50);
+		
+		if(highScore()) {
+			this.add(nameLabel, 50, 300, 300, 5);
+			this.add(nameField, 300, 300, 200, 1);
+			this.add(scoreLabel, 550, 300, 30, 1);
+			this.add(saveButton, 300, 350, 200, 15);
+		}
+		
+		this.add(playAgainButton, 220, 500, 300, 100);
+
 
 	}
 
@@ -70,8 +94,10 @@ public class GameOverPane extends GridPane {
 	private void styleMenu() {
 		this.setStyle("-fx-background-color: Black");
 
-		Font titleFont = Font.font("Monospaced", FontWeight.BOLD, 150);
+		Font titleFont = Font.font("Monospaced", FontWeight.BOLD, 110);
 		Font headingFont = Font.font("Monospaced", FontWeight.BOLD, 30);
+		
+		Font infoFont = Font.font("Monospaced", FontWeight.BOLD, 20);
 
 		gameOverLabel.setFont(titleFont);
 
@@ -79,12 +105,21 @@ public class GameOverPane extends GridPane {
 
 		playAgainButton.setStyle("-fx-text-fill: Black;" + "-fx-color: Chartreuse;");
 
+		nameLabel.setStyle("-fx-text-fill: White;");
+		scoreLabel.setStyle("-fx-text-fill: White;");
+		
+		nameLabel.setFont(infoFont);
+		scoreLabel.setFont(infoFont);
+		nameField.setFont(infoFont);
+		saveButton.setFont(infoFont);
+		
 		gameOverLabel.setFont(titleFont);
 		playAgainButton.setFont(headingFont);
 
 		gameOverLabel.setPrefWidth(600);
 		playAgainButton.setPrefWidth(300);
 		playAgainButton.setPrefHeight(100);
+		
 
 	}
 	
@@ -110,8 +145,11 @@ public class GameOverPane extends GridPane {
 		
 		saveButton.setOnAction(event -> {
 			this.name = nameField.getText();
-			gui.saveScore();
-			
+			gui.saveScore(name);
+			this.scoreLabel.setVisible(false);
+			this.nameLabel.setVisible(false);
+			this.saveButton.setVisible(false);
+			this.nameField.setVisible(false);
 		});
 		
 		

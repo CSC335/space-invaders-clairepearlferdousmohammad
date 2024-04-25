@@ -70,9 +70,9 @@ public class MenuPane extends GridPane {
 		score2Label = new Label("--");
 		score3Label = new Label("--");
 
-		name1Label = new Label("NO NAME");
-		name2Label = new Label("NO NAME");
-		name3Label = new Label("NO NAME");
+		name1Label = new Label("---");
+		name2Label = new Label("---");
+		name3Label = new Label("---");
 		
 		startButton = new Button("START");
 
@@ -88,7 +88,7 @@ public class MenuPane extends GridPane {
 			try {
 				name1Label.setText(""+names.get(0));
 			} catch (Exception e) {
-				name1Label.setText("NO NAME");
+				name1Label.setText("---");
 			}
 
 		}
@@ -97,7 +97,7 @@ public class MenuPane extends GridPane {
 			try {
 				name2Label.setText(""+names.get(1));
 			} catch (Exception e) {
-				name2Label.setText("NO NAME");
+				name2Label.setText("---");
 			}
 
 		}
@@ -106,7 +106,7 @@ public class MenuPane extends GridPane {
 			try {
 				name3Label.setText(""+names.get(2));
 			} catch (Exception e) {
-				name3Label.setText("NO NAME");
+				name3Label.setText("---");
 			}
 
 		}

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Optional;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,6 +14,9 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -116,10 +120,7 @@ public class SpaceInvadersGUI extends Application {
 		alienBullets = new ArrayList<Bullet>();
 
 		menu = new MenuPane(this);
-		overPane = new GameOverPane(this);
 		all.setCenter(menu);
-
-		//all.setCenter(overPane);
 		
 		layoutPane();
 		stylePane();
@@ -144,7 +145,6 @@ public class SpaceInvadersGUI extends Application {
 	 */
 	@SuppressWarnings("unchecked")
 	private void readScores() throws Exception {
-		System.out.println("reading scores...");
 
 		try {
 			FileInputStream rawBytes = new FileInputStream(scoreFileName);
@@ -152,7 +152,6 @@ public class SpaceInvadersGUI extends Application {
 			scores = (ArrayList<Integer>) inFile.readObject();
 			inFile.close();
 		} catch (IOException io) {
-			System.out.println("no score file found.");
 
 			scores = new ArrayList<Integer>();
 			return;
@@ -165,7 +164,6 @@ public class SpaceInvadersGUI extends Application {
 	
 	@SuppressWarnings({ "unchecked" })
 	private void readNames() throws Exception {
-		System.out.println("reading names...");
 
 		try {
 			FileInputStream rawBytes = new FileInputStream(nameFileName);
@@ -389,8 +387,20 @@ public class SpaceInvadersGUI extends Application {
 		
 		// save score when closing
 		stage.setOnCloseRequest(event -> {
-			// TODO: add a popup to enter name
-			saveScore();
+			if(all.getCenter()==canvas) {
+				timeline.stop();
+				if(scores.size()<3 || getCurrentScore() > scores.get(2)) {
+					Alert alert = new Alert(AlertType.CONFIRMATION, "Would you like to save your score?");
+					
+					Optional<ButtonType> result = alert.showAndWait();
+					if (result.get() == ButtonType.OK) {
+						overPane = new GameOverPane(this);
+						all.setCenter(overPane);
+						event.consume();
+					}
+					
+				}
+			}
 		});
 
 	}
@@ -513,6 +523,7 @@ public class SpaceInvadersGUI extends Application {
 		setupCanvas();
 		disableHandlers();
 
+		overPane = new GameOverPane(this);
 		all.setCenter(overPane);
 		soundM.stopBackgroundMusic();
 		soundM.playSound("Death");
@@ -525,20 +536,20 @@ public class SpaceInvadersGUI extends Application {
 	 * Saves the score, if one of the top 3. 
 	 * 
 	 */
-	public void saveScore() {
+	public void saveScore(String name) {
 		if (scores.size() == 0) {
 			scores.add(0, game.getScore());
-			names.add(0, overPane.getName());
+			names.add(0, name);
 		}
 		else if (scores.size() == 1 || game.getScore() > scores.get(1)) {
 			if (game.getScore() > scores.get(0)) {
 				scores.add(0, game.getScore());
-				names.add(0, overPane.getName());
+				names.add(0, name);
 
 			}
 			else {
 				scores.add(1, game.getScore());
-				names.add(1, overPane.getName());
+				names.add(1, name);
 
 
 			}
@@ -546,17 +557,17 @@ public class SpaceInvadersGUI extends Application {
 		else if (scores.size() == 2 || game.getScore() > scores.get(2)) {
 			if (game.getScore() > scores.get(0)) {
 				scores.add(0, game.getScore());
-				names.add(0, overPane.getName());
+				names.add(0, name);
 
 			}
 			else if (game.getScore() > scores.get(1)) {
 				scores.add(1, game.getScore());
-				names.add(1, overPane.getName());
+				names.add(1, name);
 
 			}
 			else {
 				scores.add(2, game.getScore());
-				names.add(2, overPane.getName());
+				names.add(2, name);
 
 			}
 		}
