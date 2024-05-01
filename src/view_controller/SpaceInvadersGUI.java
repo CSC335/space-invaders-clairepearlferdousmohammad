@@ -7,6 +7,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Optional;
+import javafx.scene.image.Image;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -33,6 +34,7 @@ import model.Bullet;
 import model.Game;
 import model.PlayerTank;
 import model.TankDestroy;
+import model.scoreBooster;
 
 /**
  * 
@@ -60,7 +62,7 @@ public class SpaceInvadersGUI extends Application {
 	private Label score;
 	private Label livesLabel;
 
-	private ImageView life1, life2, life3;
+	private ImageView life1, life2, life3, booster;
 	private ImageView nextLife;
 
 	private GraphicsContext gc;
@@ -89,6 +91,11 @@ public class SpaceInvadersGUI extends Application {
 	
 	private PlayerTank extraLife;
 
+	private scoreBooster sb;
+
+	private int extraScore = 0;
+	private Boolean boost = false;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -115,6 +122,8 @@ public class SpaceInvadersGUI extends Application {
 
 		tank = new PlayerTank(350, 450, 50, 40);
 		aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
+
+		sb = new scoreBooster(tank.getY2() - 40);
 
 		tankBullets = new ArrayList<Bullet>();
 		alienBullets = new ArrayList<Bullet>();
@@ -218,11 +227,35 @@ public class SpaceInvadersGUI extends Application {
 		life3 = new ImageView(tank.getImage());
 		life3.setFitWidth(40);
 		life3.setPreserveRatio(true);
+
+		Image boosterImage = new Image(getClass().getResourceAsStream("booster.png"));
+		booster = new ImageView(boosterImage);
+		booster.setFitWidth(40);
+		booster.setPreserveRatio(true);
+		booster.setVisible(false);
 		
 		headPane.add(life1, 260, 10, 5, 1);
 		headPane.add(life2, 280, 10, 5, 1);
 		headPane.add(life3, 300, 10, 5, 1);
 
+		headPane.add(booster, 320, 10, 5, 1);
+
+	}
+
+	private int scoreBoost() {
+		extraScore++;
+
+		if (extraScore > 5) {
+			boost = false;
+			booster.setVisible(false);
+			extraScore = 0;
+		}
+
+		if (boost) {
+			return 5;
+		} else {
+			return 0;
+		}	
 	}
 
 	/**
@@ -260,6 +293,17 @@ public class SpaceInvadersGUI extends Application {
 		// draw current objects
 		tank.draw(gc);
 		aliens.draw();
+
+		sb.draw(gc);
+
+		if (sb.isActivated) {
+			if (sb.doesHit(tank)) {
+				boost = true;
+				booster.setVisible(true);
+			}
+		}
+				
+
 		if(extraLife!=null) {
 			if(!(extraLife.isRespawning())) {
 				extraLife = null;
@@ -303,13 +347,13 @@ public class SpaceInvadersGUI extends Application {
 
 				// increment score for hitting alien
 				if(alienType==1) {
-					game.incrementScore(10);
+					game.incrementScore(10 + scoreBoost());
 				}
 				else if(alienType==2) {
-					game.incrementScore(20);
+					game.incrementScore(20 + scoreBoost());
 				}
 				else if(alienType==3) {
-					game.incrementScore(40);
+					game.incrementScore(40 + scoreBoost());
 				}
 
 				// update score on the gui
@@ -335,8 +379,6 @@ public class SpaceInvadersGUI extends Application {
 				alienBullets.remove(b);
 			}		
 		}
-		
-		
 	}
 	
 	/**
@@ -464,6 +506,10 @@ public class SpaceInvadersGUI extends Application {
 			if(indextime % 250 == 49 && game.getNumLives()<3) {
 				spawnLife();
 			}
+
+			if(indextime % 200 == 60) {
+				sb.activate();
+			}
 			
 			aliens.moveAliens(1 + diffi/2);
 
@@ -496,7 +542,6 @@ public class SpaceInvadersGUI extends Application {
 		}));
 		timeline.setCycleCount(Timeline.INDEFINITE);
 		timeline.play();
-
 	}
 	
 	
