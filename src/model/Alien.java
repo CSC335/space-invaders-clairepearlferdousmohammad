@@ -1,12 +1,13 @@
 package model;
+
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 // @author: MohammadHossein Rezaei
 
 /**
- * The Alien class represents an alien object in a game.
- * It contains methods to move the alien, shoot bullets, and retrieve its image.
+ * The Alien class represents an alien object in a game. It contains methods to
+ * move the alien, shoot bullets, and retrieve its image.
  */
 public abstract class Alien {
 	private float x_1Position;
@@ -21,11 +22,11 @@ public abstract class Alien {
 	/**
 	 * Constructs an Alien object with the specified positions and image file.
 	 *
-	 * @param x1Pos     the x-coordinate of the first position top left
-	 * @param x2Pos     the x-coordinate of the second position top right
-	 * @param y1Pos     the y-coordinate of the first position top left
-	 * @param y2Pos     the y-coordinate of the second position bottom left
-	 * @param fileName  the file name of the image
+	 * @param x1Pos    the x-coordinate of the first position top left
+	 * @param x2Pos    the x-coordinate of the second position top right
+	 * @param y1Pos    the y-coordinate of the first position top left
+	 * @param y2Pos    the y-coordinate of the second position bottom left
+	 * @param fileName the file name of the image
 	 */
 	public Alien(float x1Pos, float x2Pos, float y1Pos, float y2Pos, String fileName, String fileName2) {
 		this.x_1Position = x1Pos;
@@ -75,7 +76,7 @@ public abstract class Alien {
 	/**
 	 * Moves the alien up by the specified distance.
 	 *
-	 * @param distance  the distance to move up
+	 * @param distance the distance to move up
 	 */
 	public void moveUp(float distance) {
 		this.y_1Position -= distance;
@@ -85,7 +86,7 @@ public abstract class Alien {
 	/**
 	 * Moves the alien down by the specified distance.
 	 *
-	 * @param d  the distance to move down
+	 * @param d the distance to move down
 	 */
 	public void moveDown(double d) {
 		this.y_1Position += d;
@@ -95,7 +96,7 @@ public abstract class Alien {
 	/**
 	 * Moves the alien left by the specified distance.
 	 *
-	 * @param distance  the distance to move left
+	 * @param distance the distance to move left
 	 */
 	public void moveLeft(float distance) {
 		this.x_1Position -= distance;
@@ -105,7 +106,7 @@ public abstract class Alien {
 	/**
 	 * Moves the alien right by the specified distance.
 	 *
-	 * @param distance  the distance to move right
+	 * @param distance the distance to move right
 	 */
 	public void moveRight(float distance) {
 		this.x_1Position += distance;
@@ -113,8 +114,8 @@ public abstract class Alien {
 	}
 
 	/**
-	 * Shoots a bullet from the alien.
-	 * TODO: This needs to be updated when the Bullet class is updated with two x and y positions.
+	 * Shoots a bullet from the alien. TODO: This needs to be updated when the
+	 * Bullet class is updated with two x and y positions.
 	 *
 	 * @return the bullet object
 	 */
@@ -142,7 +143,8 @@ public abstract class Alien {
 	}
 
 	/**
-	 * Draws the alien on the specified GraphicsContext with the given width and height.
+	 * Draws the alien on the specified GraphicsContext with the given width and
+	 * height.
 	 *
 	 * @param gc     the GraphicsContext on which to draw the alien
 	 * @param width  the width of the alien
@@ -151,11 +153,11 @@ public abstract class Alien {
 	public void draw(GraphicsContext gc, float width, float height) {
 		gc.drawImage(getImage(), this.x_1Position, this.y_1Position, width, height);
 	}
-	
+
 	/**
 	 * Returns the number for type of Alien (1, 2, or 3).
-	 * 	 
-	 * @return num	the number for the Alien Type
+	 * 
+	 * @return num the number for the Alien Type
 	 */
 	public abstract int getTypeNum();
 }

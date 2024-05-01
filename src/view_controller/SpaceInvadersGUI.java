@@ -178,6 +178,12 @@ public class SpaceInvadersGUI extends Application {
  
 	}
 	
+	/**
+	 * Reads the serialized names from the serializable 
+	 * file to add them to the scoreboard
+	 * 
+	 * @throws Exception
+	 */
 	@SuppressWarnings({ "unchecked" })
 	private void readNames() throws Exception {
 
@@ -256,6 +262,12 @@ public class SpaceInvadersGUI extends Application {
 
 	}
 
+	/**
+	 * With the score booster, increases the score at a 
+	 * faster rate than otherwise. 
+	 * 
+	 * @return the score boost, whether or not it's happening
+	 */
 	private int scoreBoost() {
 		extraScore++;
 
@@ -272,6 +284,12 @@ public class SpaceInvadersGUI extends Application {
 		}	
 	}
 
+	/**
+	 * With the bullet speed booster, increases the speed at a 
+	 * faster rate than otherwise. 
+	 * 
+	 * @return the bullet speed boost, whether or not it's happening
+	 */
 	private float fastBoost() {
 		fasterBullet++;
 
@@ -587,6 +605,9 @@ public class SpaceInvadersGUI extends Application {
 	}
 	
 	
+	/**
+	 * spawns an extra life to be picked up by the playerTank every 50 milliseconds
+	 */
 	private void spawnLife() {
 		extraLife = new PlayerTank((float) (Math.random()*530), tank.getY1() + 30, (tank.getX2()-tank.getX1())/2, (tank.getY2()-tank.getY1())/2);
 		extraLife.respawn(50);
@@ -687,14 +708,27 @@ public class SpaceInvadersGUI extends Application {
 
 	}
 
+	/**
+	 * 
+	 * @return ArrayList of integers that returns the serialized scores
+	 */
 	public ArrayList<Integer> getScores() {
 		return scores;
 	}
 	
+	/**
+	 * 
+	 * @return ArrayList of integers that returns the serialized names
+	 */
 	public ArrayList<String> getNames(){
 		return names;
 	}
 	
+	/**
+	 * Gets the current players score in the game
+	 * 
+	 * @return int, the current players score in the game
+	 */
 	public int getCurrentScore() {
 		return game.getScore();
 	}

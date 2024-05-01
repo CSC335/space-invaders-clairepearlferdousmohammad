@@ -4,10 +4,10 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- * Author: MohammadHossein Rezaei and Ferdous Zubair Khan
- * The fastBullet class represents a fast bullet object in the game.
- * It is responsible for managing the activation, deactivation, and drawing of the bullet.
- * It also checks for collisions with the player tank.
+ * @author MohammadHossein Rezaei and Ferdous Zubair Khan The fastBullet class
+ *         represents a fast bullet object in the game. It is responsible for
+ *         managing the activation, deactivation, and drawing of the bullet. It
+ *         also checks for collisions with the player tank.
  */
 public class fastBullet {
 
@@ -24,6 +24,7 @@ public class fastBullet {
 
 	/**
 	 * Constructs a fastBullet object with the specified y1 position.
+	 * 
 	 * @param y1Pos the y1 position of the bullet
 	 */
 	public fastBullet(float y1Pos) {
@@ -36,7 +37,8 @@ public class fastBullet {
 	}
 
 	/**
-	 * Activates the bullet by setting the isActivated flag to true and generating a random x1 position.
+	 * Activates the bullet by setting the isActivated flag to true and generating a
+	 * random x1 position.
 	 */
 	public void activate() {
 		this.isActivated = true;
@@ -44,7 +46,8 @@ public class fastBullet {
 	}
 
 	/**
-	 * Deactivates the bullet by setting the isActivated flag to false and resetting the respawning counter.
+	 * Deactivates the bullet by setting the isActivated flag to false and resetting
+	 * the respawning counter.
 	 */
 	public void deactivate() {
 		this.isActivated = false;
@@ -53,6 +56,7 @@ public class fastBullet {
 
 	/**
 	 * Gets the image of the bullet.
+	 * 
 	 * @return the image of the bullet, or null if the bullet is respawning
 	 */
 	public Image getImage() {
@@ -70,6 +74,7 @@ public class fastBullet {
 
 	/**
 	 * Draws the bullet on the specified GraphicsContext.
+	 * 
 	 * @param gc the GraphicsContext to draw on
 	 */
 	public void draw(GraphicsContext gc) {
@@ -82,6 +87,7 @@ public class fastBullet {
 
 	/**
 	 * Checks if the bullet hits the player tank.
+	 * 
 	 * @param playerTank the player tank to check for collision with
 	 * @return true if the bullet hits the player tank, false otherwise
 	 */

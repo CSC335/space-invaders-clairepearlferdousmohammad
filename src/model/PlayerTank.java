@@ -3,8 +3,6 @@ package model;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-
-
 /**
  * Represents a playerTank, movable by the player, in an instance of a Space
  * Invaders game.
@@ -23,9 +21,9 @@ public class PlayerTank {
 	private float height;
 
 	private int respawningCounter;
-	
+
 	private Bullet currentBullet;
-	
+
 	public PlayerTank(float x1Pos, float y1Pos, float width, float height) {
 		this.respawningCounter = 0;
 		this.damages = 0;
@@ -41,13 +39,12 @@ public class PlayerTank {
 	/**
 	 * Returns the Bullet most recently shot by the Tank
 	 * 
-	 * @return currentBullet 	the Bullet most recently shot by the Tank
+	 * @return currentBullet the Bullet most recently shot by the Tank
 	 */
 	public Bullet getCurrentBullet() {
 		return this.currentBullet;
 	}
 
-	
 	/**
 	 * Gets the x1-coordinate position of the tank
 	 * 
@@ -85,7 +82,8 @@ public class PlayerTank {
 	}
 
 	/**
-	 * Moves the tank left by the specified distance in terms of the canvas coordinate system
+	 * Moves the tank left by the specified distance in terms of the canvas
+	 * coordinate system
 	 * 
 	 * @param d The distance to move the tank left
 	 */
@@ -98,7 +96,8 @@ public class PlayerTank {
 	}
 
 	/**
-	 * Moves the tank right by the specified distance in terms of the canvas coordinate system
+	 * Moves the tank right by the specified distance in terms of the canvas
+	 * coordinate system
 	 * 
 	 * @param d The distance to move the tank right
 	 */
@@ -113,40 +112,39 @@ public class PlayerTank {
 	/**
 	 * Gets the amount of damage that the tank has taken during the game
 	 * 
-	 * @return damages		The current damage on the tank
+	 * @return damages The current damage on the tank
 	 */
 	public int getDamages() {
 		return damages;
 	}
-	
+
 	/**
-	 * Respawns a new Tank by making it flash for a few seconds. 
+	 * Respawns a new Tank by making it flash for a few seconds.
 	 * 
-	 * @return this		The current tank object
+	 * @return this The current tank object
 	 **/
 	public void respawn(int counter) {
 		this.respawningCounter = counter;
 	}
-	
-	
+
 	/**
-	 * Determines whether the tank is respawning. 
+	 * Determines whether the tank is respawning.
 	 * 
-	 * @return 	true or false
+	 * @return true or false
 	 **/
-	public boolean isRespawning() {	
-		return respawningCounter>0;
+	public boolean isRespawning() {
+		return respawningCounter > 0;
 	}
-	
+
 	/**
 	 * Gets the image to put on the canvas to represent the tank
 	 * 
-	 * @return image 	The image that should be shown to represent the tank
+	 * @return image The image that should be shown to represent the tank
 	 */
 	public Image getImage() {
 		respawningCounter--;
 
-		if(isRespawning() && respawningCounter %  4 < 2) {
+		if (isRespawning() && respawningCounter % 4 < 2) {
 			return null;
 		}
 
@@ -169,30 +167,32 @@ public class PlayerTank {
 	 * @param gc GraphicsContext gc that is used in the GUI
 	 */
 	public void draw(GraphicsContext gc) {
-		if(getImage()==null) {
+		if (getImage() == null) {
 			return;
 		}
-		gc.drawImage(this.image, this.x1Position, this.y1Position, this.x2Position - this.x1Position, this.y2Position - this.y1Position);
+		gc.drawImage(this.image, this.x1Position, this.y1Position, this.x2Position - this.x1Position,
+				this.y2Position - this.y1Position);
 	}
-	
+
 	/**
 	 * Creates a bullet object from the tank, fires it, and then returns the object
 	 * 
-	 * @return bullet	initialized bullet object that is fired
+	 * @return bullet initialized bullet object that is fired
 	 */
 	public Bullet shoot() {
-		currentBullet = new Bullet(((this.x1Position + this.x2Position) / 2) - 1, this.y1Position-10, false);
+		currentBullet = new Bullet(((this.x1Position + this.x2Position) / 2) - 1, this.y1Position - 10, false);
 		return currentBullet;
 	}
-		
+
+	/**
+	 * Will determine if a tank is being hit, will return animator for destroying
+	 * the tank
+	 * 
+	 * @param x1 the x coordinate of the left side of the bullet
+	 * @param x2 the x coordinate of the right side of the bullet
+	 * @param y  the y coordinate of the bottom of the bullet
+	 */
 	public TankDestroy doesHit(float x1, float x2, float y) {
-		/**
-		 * Will determine if a tank is being hit, will return animator for destroying the tank
-		 * 
-		 * @param x1	the x coordinate of the left side of the bullet
-		 * @param x2	the x coordinate of the right side of the bullet
-		 * @param y		the y coordinate of the bottom of the bullet
-		 */
 		// iterate backwards so the lower aliens are hit first
 		// System.out.println("tank got hit was called");
 		if (getX1() < x1 && getX2() > x2 && getY1() < y) {
@@ -201,7 +201,7 @@ public class PlayerTank {
 			System.out.println("player tank got hit");
 			return as;
 		}
-		
+
 		return null;
 	}
 

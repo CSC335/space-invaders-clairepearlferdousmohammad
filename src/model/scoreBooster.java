@@ -4,9 +4,9 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
 /**
- * Author: MohammadHossein Rezaei
- * The scoreBooster class represents a score booster object in the game.
- * It provides methods to activate, deactivate, draw, and check for collision with the player tank.
+ * @author MohammadHossein Rezaei The scoreBooster class represents a score
+ *         booster object in the game. It provides methods to activate,
+ *         deactivate, draw, and check for collision with the player tank.
  */
 public class scoreBooster {
 
@@ -36,8 +36,8 @@ public class scoreBooster {
 	}
 
 	/**
-	 * Activates the score booster.
-	 * Sets the isActivated flag to true and randomly sets the x1 position.
+	 * Activates the score booster. Sets the isActivated flag to true and randomly
+	 * sets the x1 position.
 	 */
 	public void activate() {
 		this.isActivated = true;
@@ -45,8 +45,8 @@ public class scoreBooster {
 	}
 
 	/**
-	 * Deactivates the score booster.
-	 * Sets the isActivated flag to false and resets the respawning counter.
+	 * Deactivates the score booster. Sets the isActivated flag to false and resets
+	 * the respawning counter.
 	 */
 	public void deactivate() {
 		this.isActivated = false;
@@ -54,9 +54,9 @@ public class scoreBooster {
 	}
 
 	/**
-	 * Gets the image of the score booster.
-	 * Increases the respawning counter and checks if it exceeds the threshold to deactivate the booster.
-	 * Returns the image if the booster is active, otherwise returns null.
+	 * Gets the image of the score booster. Increases the respawning counter and
+	 * checks if it exceeds the threshold to deactivate the booster. Returns the
+	 * image if the booster is active, otherwise returns null.
 	 *
 	 * @return the image of the score booster or null if the booster is not active
 	 */
@@ -74,8 +74,8 @@ public class scoreBooster {
 	}
 
 	/**
-	 * Draws the score booster on the specified GraphicsContext.
-	 * Only draws the booster if it is activated and has a valid image.
+	 * Draws the score booster on the specified GraphicsContext. Only draws the
+	 * booster if it is activated and has a valid image.
 	 *
 	 * @param gc the GraphicsContext to draw on
 	 */
@@ -88,8 +88,8 @@ public class scoreBooster {
 	}
 
 	/**
-	 * Checks if the score booster collides with the player tank.
-	 * Returns true if there is a collision and deactivates the booster, otherwise returns false.
+	 * Checks if the score booster collides with the player tank. Returns true if
+	 * there is a collision and deactivates the booster, otherwise returns false.
 	 *
 	 * @param playerTank the player tank to check collision with
 	 * @return true if there is a collision, false otherwise

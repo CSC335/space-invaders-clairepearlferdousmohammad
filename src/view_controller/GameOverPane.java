@@ -19,15 +19,14 @@ import javafx.stage.Stage;
 
 public class GameOverPane extends GridPane {
 
-
 	private Label gameOverLabel, nameLabel, scoreLabel;
 	private Button playAgainButton, saveButton;
 	private TextField nameField;
-	
+
 	private SpaceInvadersGUI gui;
-	
+
 	private String name;
-	
+
 	public GameOverPane(SpaceInvadersGUI gui) {
 
 		this.gui = gui;
@@ -35,9 +34,15 @@ public class GameOverPane extends GridPane {
 		styleMenu();
 		layoutMenu();
 		setHandler(gui);
-	
+
 	}
-	
+
+	/**
+	 * Determines if the current players score is the all-time high score in the
+	 * game
+	 * 
+	 * @return a boolean for whether the current score is the highest score
+	 */
 	private boolean highScore() {
 		int score = gui.getCurrentScore();
 		System.out.println("current score is " + score);
@@ -50,7 +55,7 @@ public class GameOverPane extends GridPane {
 		}
 	}
 
-	/** 
+	/**
 	 * Creates the javafx nodes the gameOver pane.
 	 * 
 	 */
@@ -60,7 +65,7 @@ public class GameOverPane extends GridPane {
 		nameLabel = new Label("Enter your name to \n save your score: ");
 		nameField = new TextField();
 		saveButton = new Button("Save score");
-		scoreLabel = new Label(""+ gui.getCurrentScore());
+		scoreLabel = new Label("" + gui.getCurrentScore());
 
 	}
 
@@ -74,20 +79,19 @@ public class GameOverPane extends GridPane {
 		this.setVgap(0.5);
 
 		this.add(gameOverLabel, 100, 100, 800, 50);
-		
-		if(highScore()) {
+
+		if (highScore()) {
 			this.add(nameLabel, 50, 300, 300, 5);
 			this.add(nameField, 300, 300, 200, 1);
 			this.add(scoreLabel, 550, 300, 30, 1);
 			this.add(saveButton, 300, 350, 200, 15);
 		}
-		
-		this.add(playAgainButton, 220, 500, 300, 100);
 
+		this.add(playAgainButton, 220, 500, 300, 100);
 
 	}
 
-	/** 
+	/**
 	 * Sets the styling of the menu pane.
 	 * 
 	 */
@@ -96,7 +100,7 @@ public class GameOverPane extends GridPane {
 
 		Font titleFont = Font.font("Monospaced", FontWeight.BOLD, 110);
 		Font headingFont = Font.font("Monospaced", FontWeight.BOLD, 30);
-		
+
 		Font infoFont = Font.font("Monospaced", FontWeight.BOLD, 20);
 
 		gameOverLabel.setFont(titleFont);
@@ -107,22 +111,26 @@ public class GameOverPane extends GridPane {
 
 		nameLabel.setStyle("-fx-text-fill: White;");
 		scoreLabel.setStyle("-fx-text-fill: White;");
-		
+
 		nameLabel.setFont(infoFont);
 		scoreLabel.setFont(infoFont);
 		nameField.setFont(infoFont);
 		saveButton.setFont(infoFont);
-		
+
 		gameOverLabel.setFont(titleFont);
 		playAgainButton.setFont(headingFont);
 
 		gameOverLabel.setPrefWidth(600);
 		playAgainButton.setPrefWidth(300);
 		playAgainButton.setPrefHeight(100);
-		
 
 	}
-	
+
+	/**
+	 * Gets the name of the user for the scoreboard
+	 * 
+	 * @return this.name, the name given by the user in the name field
+	 */
 	public String getName() {
 		return this.name;
 	}
@@ -142,7 +150,7 @@ public class GameOverPane extends GridPane {
 				e.printStackTrace();
 			}
 		});
-		
+
 		saveButton.setOnAction(event -> {
 			this.name = nameField.getText();
 			gui.saveScore(name);
@@ -151,7 +159,6 @@ public class GameOverPane extends GridPane {
 			this.saveButton.setVisible(false);
 			this.nameField.setVisible(false);
 		});
-		
-		
+
 	}
 }

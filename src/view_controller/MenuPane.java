@@ -73,38 +73,38 @@ public class MenuPane extends GridPane {
 		name1Label = new Label("---");
 		name2Label = new Label("---");
 		name3Label = new Label("---");
-		
+
 		startButton = new Button("START");
 
 	}
-	
+
 	/**
 	 * Sets up the GUI for the menu that displays before a game starts.
 	 * 
 	 */
 	private void setScores(ArrayList<Integer> scores, ArrayList<String> names) {
-		if(scores.size()>=1) {
-			score1Label.setText(""+scores.get(0));
+		if (scores.size() >= 1) {
+			score1Label.setText("" + scores.get(0));
 			try {
-				name1Label.setText(""+names.get(0));
+				name1Label.setText("" + names.get(0));
 			} catch (Exception e) {
 				name1Label.setText("---");
 			}
 
 		}
-		if(scores.size()>=2) {
-			score2Label.setText(""+scores.get(1));
+		if (scores.size() >= 2) {
+			score2Label.setText("" + scores.get(1));
 			try {
-				name2Label.setText(""+names.get(1));
+				name2Label.setText("" + names.get(1));
 			} catch (Exception e) {
 				name2Label.setText("---");
 			}
 
 		}
-		if(scores.size()>=3) {
-			score3Label.setText(""+scores.get(2));
+		if (scores.size() >= 3) {
+			score3Label.setText("" + scores.get(2));
 			try {
-				name3Label.setText(""+names.get(2));
+				name3Label.setText("" + names.get(2));
 			} catch (Exception e) {
 				name3Label.setText("---");
 			}
@@ -135,7 +135,7 @@ public class MenuPane extends GridPane {
 		this.add(score1Label, 25, 75, 5, 1);
 		this.add(score2Label, 25, 80, 5, 1);
 		this.add(score3Label, 25, 85, 5, 1);
-		
+
 		this.add(name1Label, 35, 75, 10, 1);
 		this.add(name2Label, 35, 80, 10, 1);
 		this.add(name3Label, 35, 85, 10, 1);
@@ -144,7 +144,7 @@ public class MenuPane extends GridPane {
 
 	}
 
-	/** 
+	/**
 	 * Sets the styling of the menu pane.
 	 * 
 	 */
@@ -186,7 +186,6 @@ public class MenuPane extends GridPane {
 		name2Label.setStyle("-fx-text-fill: White;");
 		name3Label.setStyle("-fx-text-fill: White;");
 
-
 		startButton.setFont(headingFont);
 		startButton.setStyle("-fx-background-color: Chartreuse;" + "-fx-text-fill: Black;");
 		startButton.setPrefWidth(300);
@@ -198,7 +197,7 @@ public class MenuPane extends GridPane {
 	 * Sets handler for when the user clicks start.
 	 * 
 	 * @param gui The GUI used to display the game.
-	 *  
+	 * 
 	 */
 	private void setHandler(SpaceInvadersGUI gui) {
 		startButton.setOnAction(event -> {
@@ -216,7 +215,7 @@ public class MenuPane extends GridPane {
 			} else if (tg.getSelectedToggle().equals(hardButton)) {
 				diff = 3;
 			}
-			
+
 			gui.setDiffi(diff);
 
 			gui.startGame();

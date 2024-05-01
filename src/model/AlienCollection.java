@@ -12,11 +12,12 @@ import javafx.util.Duration;
 
 import java.util.ArrayList;
 
-//@author: MohammadHossein Rezaei
 /**
- * The AlienCollection class represents a collection of aliens in a game. It
- * provides methods to fill the collection with aliens, move the aliens, check
- * for collisions, and perform other operations on the collection.
+ * @author MohammadHossein Rezaei 
+ * The AlienCollection class represents a
+ * collection of aliens in a game. It provides methods to fill the
+ * collection with aliens, move the aliens, check for collisions, and
+ * perform other operations on the collection.
  */
 public class AlienCollection {
 	// Following will be set by parameters of the constructor
@@ -32,7 +33,7 @@ public class AlienCollection {
 	private float alienHeight;
 	private float horizontalMargin;
 	private float verticalMargin;
-	
+
 	// for animations
 	private Timeline timeline;
 
@@ -100,8 +101,6 @@ public class AlienCollection {
 							j * (alienWidth + horizontalMargin) + horizontalMargin + alienWidth + moveMargin / 2,
 							i * (alienHeight + verticalMargin) + verticalMargin + alienHeight);
 				}
-				// gameGC.drawImage(nalien.getImage(), nalien.getX1(), nalien.getY1(),
-				// alienWidth, alienHeight);
 				nalien.draw(gameGC, alienWidth, alienHeight);
 				this.aliens.add(nalien);
 			}
@@ -127,8 +126,6 @@ public class AlienCollection {
 			if (alien.getX1() + distance * movingDirection < 0
 					|| alien.getX2() + distance * movingDirection > gridWidth) {
 				moveDown = true;
-				// System.out.println(alien.getX1() + " " + alien.getX2());
-				// System.out.println("Distance: " + distance);
 				break;
 			}
 		}
@@ -155,7 +152,6 @@ public class AlienCollection {
 			}
 
 			for (Alien alien : aliens) {
-				// alien.moveDown(alienHeight + verticalMargin);
 				// aliens move down by a smaller height
 				alien.moveDown((alienHeight + verticalMargin) * 0.1);
 				if (movingDirection == 1) {
@@ -166,36 +162,12 @@ public class AlienCollection {
 					alien.moveRight(distance - leftMost);
 				}
 			}
-			// for (Alien alien : aliens) {
-			// alien.moveDown(alienHeight + verticalMargin);
-			// if (movingDirection == 1) {
-			// alien.moveRight(gridWidth - alien.getX2());
-			// alien.moveLeft(distance - (gridWidth - alien.getX2()));
-			// } else {
-			// alien.moveLeft(alien.getX1());
-			// alien.moveRight(distance - alien.getX1());
-			// }
-			// }
 			movingDirection *= -1;
-			// System.out.println("Moving down: " + movingDirection);
 		} else {
 			for (Alien alien : aliens) {
 				alien.moveRight(distance * movingDirection);
 			}
-			// System.out.println("Moving Direction: " + movingDirection);
 		}
-
-		// update the drawings
-		// gameGC.clearRect(0, 0, gridWidth, gridHeight);
-		// gameGC.setStroke(Color.BLACK);
-		// gameGC.setFill(Color.BLACK);
-		// gameGC.strokeRect(0, 0, 800, 580);
-		// gameGC.fillRect(0, 0, 800, 580);
-		// for (Alien alien : aliens) {
-		// // gameGC.drawImage(alien.getImage(), alien.getX1(), alien.getY1(),
-		// alienWidth, alienHeight);
-		// alien.draw(gameGC, alienWidth, alienHeight);
-		// }
 	}
 
 	/**
@@ -211,34 +183,20 @@ public class AlienCollection {
 	public AnimateStarter doesHit(float x1, float x2, float y) {
 		/**
 		 * This method will check if the given x1, x2, and y are inside any of the
-		 * aliens in the collection. If so, it will return the int for the Alien type (1, 2, 3).
-		 * If not, it will return 0. 
+		 * aliens in the collection. If so, it will return the int for the Alien type
+		 * (1, 2, 3). If not, it will return 0.
 		 * 
-		 * @param x1	the x coordinate of the left side of the bullet
-		 * @param x2	the x coordinate of the right side of the bullet
-		 * @param y		the y coordinate of the top of the bullet
+		 * @param x1 the x coordinate of the left side of the bullet
+		 * @param x2 the x coordinate of the right side of the bullet
+		 * @param y  the y coordinate of the top of the bullet
 		 */
 		// iterate backwards so the lower aliens are hit first
-		for (int i=aliens.size()-1;i>=0;i--) {
+		for (int i = aliens.size() - 1; i >= 0; i--) {
 			Alien alien = aliens.get(i);
-			if (alien.getX1() < x2 && alien.getX2() > x1 && alien.getY1() < y && alien.getY2()+15 > y) {
+			if (alien.getX1() < x2 && alien.getX2() > x1 && alien.getY1() < y && alien.getY2() + 15 > y) {
 				aliens.remove(alien);
-				// this is for animation of the destruction
-				// create a fake event; just to start the animation
-
-				// Initialize the timeline here and add a cycle count if needed
-				// timeline = new Timeline();
-				// timeline.setCycleCount(1);  // If needed, adjust according to the number of cycles for animation
-
-				// KeyFrame frame = new KeyFrame(Duration.millis(5000), new AnimateStarter(x1, x2, y, this.alienHeight, this.gameGC, timeline));
-				// timeline.getKeyFrames().add(frame);
-				// timeline.play();  // Start the timeline
-
-				// timeline = new Timeline(new KeyFrame(Duration.millis(90), new AnimateStarter(x1, x2, y, this.alienHeight, this.gameGC, this.timeline)));
-				AnimateStarter as = new AnimateStarter(alien.getX1(), alien.getX2(), alien.getY1(), this.alienHeight, alien.getTypeNum());
-
-				
-				// return alien.getTypeNum();
+				AnimateStarter as = new AnimateStarter(alien.getX1(), alien.getX2(), alien.getY1(), this.alienHeight,
+						alien.getTypeNum());
 				return as;
 			}
 		}
@@ -287,11 +245,16 @@ public class AlienCollection {
 		for (Alien alien : aliens) {
 			alien.draw(gameGC, alienWidth, alienHeight);
 		}
-	}	
+	}
 
+	/**
+	 * When called, causes a bullet to randomly be dropped by a type 3 alien
+	 * 
+	 * @return a bullet object that is being randomly shot
+	 */
 	public Bullet shootRandom() {
-		// randomly select a type3 alien to shoot 
-		
+		// randomly select a type3 alien to shoot
+
 		// get all type 3 aliens
 		ArrayList<Alien> type3Aliens = new ArrayList<>();
 		for (Alien alien : aliens) {
@@ -307,11 +270,11 @@ public class AlienCollection {
 		Alien alien = type3Aliens.get(randomIndex);
 		return alien.shoot();
 	}
-	
+
 	public float getLowestY() {
 		float maxY = 0;
 		for (Alien alien : aliens) {
-			if(alien.getY2()>maxY){
+			if (alien.getY2() > maxY) {
 				maxY = alien.getY2();
 			}
 		}

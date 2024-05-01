@@ -22,13 +22,13 @@ public class Bullet {
 	/**
 	 * Constructs a new Bullet object.
 	 *
-	 * @param xPosition1  the initial x position of the bullet
-	 * @param xPosition2  the final x position of the bullet
-	 * @param alienFire   indicates whether the bullet is fired by an alien or not
+	 * @param xPosition1 the initial x position of the bullet
+	 * @param xPosition2 the final x position of the bullet
+	 * @param alienFire  indicates whether the bullet is fired by an alien or not
 	 */
 	public Bullet(float xPosition1, float yPosition1, boolean alienFire) {
-		this.height = 15; 
-		this.width = 2; 
+		this.height = 15;
+		this.width = 2;
 		this.xPosition1 = xPosition1;
 		this.xPosition2 = xPosition1 + width;
 		this.yPosition1 = yPosition1;
@@ -72,24 +72,28 @@ public class Bullet {
 		return this.yPosition2;
 	}
 
+	/**
+	 * When called, uses the GraphicsContext parameter to draw the bullet at the
+	 * current position
+	 * 
+	 * @param gc, the GraphicsContext to draw the bullet with
+	 */
 	public void draw(GraphicsContext gc) {
-		if(this.alienShoot) {
+		if (this.alienShoot) {
 			gc.setFill(Color.ORANGE);
 			gc.setStroke(Color.ORANGE);
-		}
-		else {
+		} else {
 			gc.setFill(Color.CYAN);
 			gc.setStroke(Color.CYAN);
 		}
-
 
 		gc.strokeRect(xPosition1, yPosition1, width, height);
 		gc.fillRect(xPosition1, yPosition1, width, height);
 	}
 
 	/**
-	 * Moves the bullet up or down, depending on shooter. 
-	 * 	 
+	 * Moves the bullet up or down, depending on shooter.
+	 * 
 	 */
 	public void move(double distance) {
 		if (alienShoot) {
@@ -102,33 +106,4 @@ public class Bullet {
 			this.yPosition2 -= distance;
 		}
 	}
-
-	/**
-	 * If an alien is firing down, the bullet moves down. If the tank is firing, the
-	 * bullet moves up. Both with sleep to make the bullet seem as though it is
-	 * moving and both move until hitting the edge of the canvas.
-	 
-	public void fire() {
-		if (!this.alienShoot) {
-			while (this.yPosition >= 1) {
-				try {
-					// if waiting 2 milliseconds, it will take 1200 seconds to go across the screen
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				}
-				moveUp();
-			}
-		} else {
-			while (this.yPosition <= 599.0) {
-				try {
-					Thread.sleep(1);
-				} catch (InterruptedException e) {
-					Thread.currentThread().interrupt();
-				}
-				moveDown();
-			}
-		}
-	}
-	*/
 }
