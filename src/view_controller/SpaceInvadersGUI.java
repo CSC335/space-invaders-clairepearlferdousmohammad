@@ -35,6 +35,7 @@ import model.Game;
 import model.PlayerTank;
 import model.TankDestroy;
 import model.scoreBooster;
+import model.fastBullet;
 
 /**
  * 
@@ -62,7 +63,7 @@ public class SpaceInvadersGUI extends Application {
 	private Label score;
 	private Label livesLabel;
 
-	private ImageView life1, life2, life3, booster;
+	private ImageView life1, life2, life3, booster, faster;
 	private ImageView nextLife;
 
 	private GraphicsContext gc;
@@ -96,6 +97,11 @@ public class SpaceInvadersGUI extends Application {
 	private int extraScore = 0;
 	private Boolean boost = false;
 
+	private fastBullet fb;
+
+	private int fasterBullet = 0;
+	private Boolean fast = false;
+
 	public static void main(String[] args) {
 		launch(args);
 	}
@@ -124,6 +130,7 @@ public class SpaceInvadersGUI extends Application {
 		aliens = new AlienCollection(gc, 800, 300, 600, 11, 8);
 
 		sb = new scoreBooster(tank.getY2() - 40);
+		fb = new fastBullet(tank.getY2() - 40);
 
 		tankBullets = new ArrayList<Bullet>();
 		alienBullets = new ArrayList<Bullet>();
@@ -233,12 +240,19 @@ public class SpaceInvadersGUI extends Application {
 		booster.setFitWidth(40);
 		booster.setPreserveRatio(true);
 		booster.setVisible(false);
+
+		Image fasterImage = new Image(getClass().getResourceAsStream("fast.png"));
+		faster = new ImageView(fasterImage);
+		faster.setFitWidth(40);
+		faster.setPreserveRatio(true);
+		faster.setVisible(false);
 		
 		headPane.add(life1, 260, 10, 5, 1);
 		headPane.add(life2, 280, 10, 5, 1);
 		headPane.add(life3, 300, 10, 5, 1);
 
 		headPane.add(booster, 320, 10, 5, 1);
+		headPane.add(faster, 340, 10, 5, 1);
 
 	}
 
@@ -255,6 +269,22 @@ public class SpaceInvadersGUI extends Application {
 			return 5;
 		} else {
 			return 0;
+		}	
+	}
+
+	private float fastBoost() {
+		fasterBullet++;
+
+		if (fasterBullet > 100) {
+			fast = false;
+			faster.setVisible(false);
+			fasterBullet = 0;
+		}
+
+		if (fast) {
+			return (float) 1.3;
+		} else {
+			return 1;
 		}	
 	}
 
@@ -295,11 +325,19 @@ public class SpaceInvadersGUI extends Application {
 		aliens.draw();
 
 		sb.draw(gc);
+		fb.draw(gc);
 
 		if (sb.isActivated) {
 			if (sb.doesHit(tank)) {
 				boost = true;
 				booster.setVisible(true);
+			}
+		}
+
+		if (fb.isActivated) {
+			if (fb.doesHit(tank)) {
+				fast = true;
+				faster.setVisible(true);
 			}
 		}
 				
@@ -510,6 +548,10 @@ public class SpaceInvadersGUI extends Application {
 			if(indextime % 200 == 60) {
 				sb.activate();
 			}
+
+			if (indextime % 200 == 130) {
+				fb.activate();
+			}
 			
 			aliens.moveAliens(1 + diffi/2);
 
@@ -518,7 +560,7 @@ public class SpaceInvadersGUI extends Application {
 			}
 			
 			for (Bullet b : alienBullets) {
-				b.move(30);
+				b.move(30 * fastBoost());
 			}
 			for (Bullet b : tankBullets) {
 				b.move(30);
